@@ -56,7 +56,7 @@ export default function ContactPage() {
         <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
           {isSubmitting ? "Sending…" : "Send message"}
         </Button>
-        {sent && <div className="text-xs text-success">Thanks — we'll be in touch shortly.</div>}
+        {sent && <div className="text-xs text-success">Thanks — we&apos;ll be in touch shortly.</div>}
       </form>
     </div>
   );

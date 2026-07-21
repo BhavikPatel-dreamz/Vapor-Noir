@@ -126,9 +126,8 @@ export default function CheckoutPage() {
   }, [regionId]);
 
   useEffect(() => {
-    if (regionId) {
-      loadPaymentProviders();
-    }
+    if (!regionId) return;
+    loadPaymentProviders(); // eslint-disable-line react-hooks/set-state-in-effect -- data fetch with loading indicator
   }, [regionId, loadPaymentProviders]);
 
   const onAddressSubmit = async (data: AddressForm) => {

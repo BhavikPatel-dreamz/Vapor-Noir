@@ -15,11 +15,13 @@ export default function WishlistPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
+    let cancelled = false;
+    setLoading(true); // eslint-disable-line react-hooks/set-state-in-effect -- loading reset needed on ids change
     getProductsByIds(ids)
-      .then(setProducts)
+      .then((data) => { if (!cancelled) setProducts(data); })
       .catch(console.error)
-      .finally(() => setLoading(false));
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, [ids]);
 
   if (loading) {

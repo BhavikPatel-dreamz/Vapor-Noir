@@ -1,15 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 const KEY = "vn-age-verified";
 
 export function AgeGate() {
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (typeof window !== "undefined" && !localStorage.getItem(KEY)) setVisible(true);
-  }, []);
+  const [visible, setVisible] = useState(
+    () => typeof window !== "undefined" && !localStorage.getItem(KEY),
+  );
   const confirm = () => {
     localStorage.setItem(KEY, "1");
     setVisible(false);

@@ -19,7 +19,7 @@ export default function CartPage() {
       <div className="container-x flex min-h-[60vh] flex-col items-center justify-center gap-4 py-16 md:py-24 text-center">
         <h1 className="font-display text-4xl">Your bag is empty</h1>
         <p className="max-w-md text-muted-foreground">
-          You haven't added anything yet. Explore our latest devices and small-batch liquids.
+          You haven&apos;t added anything yet. Explore our latest devices and small-batch liquids.
         </p>
         <Button asChild size="lg" className="mt-4"><Link href="/shop">Shop the collection</Link></Button>
       </div>
