@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.6",
+    "baseline-browser-mapping": "^2.10.44",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.2.10"
   }

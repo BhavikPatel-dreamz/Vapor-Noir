@@ -13,11 +13,8 @@ const PRODUCT_FIELDS = [
   "is_giftcard",
   "discountable",
   "thumbnail",
-  "category_id",
   "created_at",
   "updated_at",
-  "*options",
-  "*options.values",
   "*tags",
   "*images",
   "*variants",
@@ -25,7 +22,6 @@ const PRODUCT_FIELDS = [
   "*variants.manage_inventory",
   "*variants.allow_backorder",
   "*variants.inventory_quantity",
-  "*categories",
   "*collection",
 ].join(",");
 
@@ -47,19 +43,12 @@ interface MedusaProduct {
     title: string;
     sku?: string;
     prices: { id: string; amount: number; currency_code: string; compare_at_amount?: number }[];
-    options: { id: string; value: string; option: { id: string; title: string } }[];
+    options: { id: string; value: string; option: { id: string } }[];
     calculated_price?: { calculated_amount: number; compare_at_amount?: number; currency_code: string };
     manage_inventory?: boolean;
     allow_backorder?: boolean;
     inventory_quantity?: number;
   }[];
-  options: {
-    id: string;
-    title: string;
-    values: { id: string; value: string }[];
-  }[];
-  category_id: string;
-  categories?: { id: string; handle: string }[];
   tags: { id: string; value: string }[];
   collection?: { id: string; title: string; handle: string };
   metadata?: Record<string, unknown>;
@@ -121,11 +110,21 @@ function medusaToProduct(p: MedusaProduct): Product {
     features: (p.metadata?.features as string[]) || [],
     specs:
       (p.metadata?.specs as { label: string; value: string }[]) ||
-      p.options?.map((o) => ({
-        label: o.title,
-        value: o.values.map((v) => v.value).join(", "),
-      })) ||
-      [],
+      (() => {
+        const optionMap = new Map<string, string[]>();
+        for (const v of p.variants || []) {
+          for (const o of v.options || []) {
+            const key = o.option.id;
+            if (!optionMap.has(key)) optionMap.set(key, []);
+            const vals = optionMap.get(key)!;
+            if (!vals.includes(o.value)) vals.push(o.value);
+          }
+        }
+        return [...optionMap.values()].map((vals) => ({
+          label: "Option",
+          value: vals.join(", "),
+        }));
+      })(),
     tags: p.tags?.map((t) => t.value) || [],
     featured: p.metadata?.featured === true || p.metadata?.featured === "true",
     new: p.metadata?.new === true || p.metadata?.new === "true",

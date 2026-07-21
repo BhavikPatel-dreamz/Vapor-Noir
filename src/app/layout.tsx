@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { AgeGate } from "@/components/layout/age-gate";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const playfair = Playfair_Display({
-  subsets: ["latin"],
+const inter = localFont({
+  src: "../fonts/Inter-Variable.ttf",
+  variable: "--font-inter",
+  display: "swap",
+});
+const playfair = localFont({
+  src: "../fonts/PlayfairDisplay-Variable.ttf",
   variable: "--font-playfair",
   display: "swap",
 });
