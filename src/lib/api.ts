@@ -1,6 +1,6 @@
 import type { Product, Category, Collection } from "@/types/product";
 
-const MEDUSA_BACKEND_URL = process.env.MEDUSA_BACKEND_URL || "http://localhost:9000";
+const MEDUSA_BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 const MEDUSA_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY!;
 const MEDUSA_SALES_CHANNEL_ID = process.env.NEXT_PUBLIC_VAPE_SALES_CHANNEL_ID!;
 
