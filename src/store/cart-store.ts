@@ -50,7 +50,7 @@ function syncCartItems(
       name: product?.title ?? prevItem?.name ?? li.title,
       variantName: li.variant?.title ?? prevItem?.variantName ?? "",
       price: Math.round(li.unit_price),
-      currency: prevItem?.currency ?? cart.currency_code?.toUpperCase() ?? "USD",
+      currency: prevItem?.currency ?? cart.currency_code?.toUpperCase() ?? "EUR",
       image: product?.thumbnail ?? prevItem?.image ?? "",
       quantity: li.quantity,
     };

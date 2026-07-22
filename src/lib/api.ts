@@ -71,10 +71,24 @@ interface MedusaCollection {
   handle: string;
 }
 
-function pickPrice(prices: { amount: number; currency_code: string; compare_at_amount?: number }[] | undefined, currency = "usd") {
-  if (!prices?.length) return { amount: 0, compare_at_amount: undefined, currency_code: "USD" };
+function pickPrice(prices: { amount: number; currency_code: string; compare_at_amount?: number }[] | undefined, currency = "eur") {
+  if (!prices?.length) return { amount: 0, compare_at_amount: undefined, currency_code: "EUR" };
   const match = prices.find((p) => p.currency_code === currency) ?? prices[0];
-  return { amount: match.amount, compare_at_amount: match.compare_at_amount, currency_code: match.currency_code?.toUpperCase() || "USD" };
+  return { amount: match.amount, compare_at_amount: match.compare_at_amount, currency_code: match.currency_code?.toUpperCase() || "EUR" };
+}
+
+/**
+ * Returns the region ID for the Europe (EUR) region.
+ * Falls back to the first available region if no EUR region is found.
+ */
+export async function getDefaultRegionId(): Promise<string | undefined> {
+  try {
+    const regions = await getRegions();
+    const eurRegion = regions.find((r) => r.currency_code?.toLowerCase() === "eur");
+    return (eurRegion ?? regions[0])?.id;
+  } catch {
+    return undefined;
+  }
 }
 
 function medusaToProduct(p: MedusaProduct): Product {
