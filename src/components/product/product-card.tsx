@@ -33,6 +33,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
       name: product.name,
       variantName: variant.name,
       price: variant.price,
+      currency: product.currency,
       image: product.images[0],
     });
   };
@@ -89,10 +90,10 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             <div className="mt-1"><Rating value={product.rating} count={product.reviewCount} /></div>
           </div>
           <div className="text-right">
-            <div className="text-base font-medium">{formatPrice(product.price)}</div>
+            <div className="text-base font-medium">{formatPrice(product.price, product.currency)}</div>
             {product.compareAtPrice && (
               <div className="text-xs text-muted-foreground line-through">
-                {formatPrice(product.compareAtPrice)}
+                {formatPrice(product.compareAtPrice, product.currency)}
               </div>
             )}
           </div>

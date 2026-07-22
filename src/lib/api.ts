@@ -18,6 +18,7 @@ const PRODUCT_FIELDS = [
   "*tags",
   "*images",
   "*variants",
+  "*variants.prices",
   "*variants.options",
   "*variants.manage_inventory",
   "*variants.allow_backorder",
@@ -70,15 +71,15 @@ interface MedusaCollection {
   handle: string;
 }
 
+function pickPrice(prices: { amount: number; currency_code: string; compare_at_amount?: number }[] | undefined, currency = "usd") {
+  if (!prices?.length) return { amount: 0, compare_at_amount: undefined, currency_code: "USD" };
+  const match = prices.find((p) => p.currency_code === currency) ?? prices[0];
+  return { amount: match.amount, compare_at_amount: match.compare_at_amount, currency_code: match.currency_code?.toUpperCase() || "USD" };
+}
+
 function medusaToProduct(p: MedusaProduct): Product {
   const variant = p.variants?.[0];
-  const price =
-    variant?.calculated_price?.calculated_amount ??
-    variant?.prices?.[0]?.amount ??
-    0;
-  const compareAt =
-    variant?.calculated_price?.compare_at_amount ??
-    variant?.prices?.[0]?.compare_at_amount;
+  const pricing = pickPrice(variant?.prices);
 
   return {
     id: p.id,
@@ -88,21 +89,20 @@ function medusaToProduct(p: MedusaProduct): Product {
     description: p.description || "",
     longDescription: p.description || "",
     category: p.collection?.handle || (p.metadata?.category as string) || "uncategorized",
-    price: Math.round(price / 100),
-    compareAtPrice: compareAt ? Math.round(compareAt / 100) : undefined,
-    currency: variant?.calculated_price?.currency_code?.toUpperCase() || "USD",
+    price: Math.round(pricing.amount),
+    compareAtPrice: pricing.compare_at_amount ? Math.round(pricing.compare_at_amount) : undefined,
+    currency: pricing.currency_code,
     rating: (p.metadata?.rating as number) || 0,
     reviewCount: (p.metadata?.review_count as number) || 0,
     images: p.images?.map((img) => img.url) || (p.thumbnail ? [p.thumbnail] : []),
     variants:
       p.variants?.map((v) => {
-        const vPrice = v.calculated_price?.calculated_amount ?? v.prices?.[0]?.amount ?? 0;
-        const vCompare = v.calculated_price?.compare_at_amount ?? v.prices?.[0]?.compare_at_amount;
+        const vp = pickPrice(v.prices);
         return {
           id: v.id,
           name: [v.title, ...v.options.map((o) => o.value)].filter(Boolean).join(" / "),
-          price: Math.round(vPrice / 100),
-          compareAtPrice: vCompare ? Math.round(vCompare / 100) : undefined,
+          price: Math.round(vp.amount),
+          compareAtPrice: vp.compare_at_amount ? Math.round(vp.compare_at_amount) : undefined,
           inStock: v.manage_inventory === false || (v.manage_inventory === true && (v.inventory_quantity ?? 0) > 0) || !!v.allow_backorder,
           sku: v.sku || "",
         };

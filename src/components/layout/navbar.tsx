@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Heart, Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/store/cart-store";
 import { CartDrawer } from "@/components/cart/cart-drawer";
@@ -45,7 +45,7 @@ export function Navbar() {
             <Link href="/wishlist">
               <Button variant="ghost" size="icon" aria-label="Wishlist"><Heart /></Button>
             </Link>
-            <Button variant="ghost" size="icon" aria-label="Account" className="hidden md:inline-flex"><User /></Button>
+            {/* <Button variant="ghost" size="icon" aria-label="Account" className="hidden md:inline-flex"><User /></Button> */}
             <Button variant="ghost" size="icon" aria-label="Cart" onClick={openCart} className="relative">
               <ShoppingBag />
               {count > 0 && (

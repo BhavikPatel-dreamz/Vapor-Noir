@@ -11,6 +11,7 @@ import { formatPrice } from "@/lib/format";
 export default function CartPage() {
   const { items, update, remove, removingItemId } = useCart();
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
+  const currency = items[0]?.currency ?? "USD";
   const shipping = subtotal > 75 || subtotal === 0 ? 0 : 8;
   const total = subtotal + shipping;
 
@@ -45,8 +46,8 @@ export default function CartPage() {
                     <div className="text-sm text-muted-foreground">{i.variantName}</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-medium">{formatPrice(i.price * i.quantity)}</div>
-                    <div className="text-xs text-muted-foreground">{formatPrice(i.price)} each</div>
+                    <div className="font-medium">{formatPrice(i.price * i.quantity, i.currency)}</div>
+                    <div className="text-xs text-muted-foreground">{formatPrice(i.price, i.currency)} each</div>
                   </div>
                 </div>
                 <div className="mt-auto flex flex-wrap items-center justify-between gap-2">
@@ -68,13 +69,13 @@ export default function CartPage() {
         <aside className="h-fit rounded-xl border border-border bg-card p-6">
           <div className="mb-2 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Order summary</div>
           <div className="space-y-2 text-sm">
-            <div className="flex justify-between"><span>Subtotal</span><span>{formatPrice(subtotal)}</span></div>
-            <div className="flex justify-between"><span>Shipping</span><span>{shipping === 0 ? "Free" : formatPrice(shipping)}</span></div>
+            <div className="flex justify-between"><span>Subtotal</span><span>{formatPrice(subtotal, currency)}</span></div>
+            <div className="flex justify-between"><span>Shipping</span><span>{shipping === 0 ? "Free" : formatPrice(shipping, currency)}</span></div>
           </div>
           <Separator className="my-4" />
           <div className="flex items-baseline justify-between">
             <span>Total</span>
-            <span className="font-display text-2xl">{formatPrice(total)}</span>
+            <span className="font-display text-2xl">{formatPrice(total, currency)}</span>
           </div>
           <Button asChild size="lg" className="mt-6 w-full"><Link href="/checkout">Checkout</Link></Button>
           <Button asChild variant="ghost" className="mt-2 w-full"><Link href="/shop">Continue shopping</Link></Button>

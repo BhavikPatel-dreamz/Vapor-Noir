@@ -71,6 +71,7 @@ export default function CheckoutPage() {
   const [regionId, setRegionId] = useState<string | null>(null);
 
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
+  const currency = items[0]?.currency ?? "USD";
   const total = subtotal + shippingCost;
 
   const availableCountries = regions.flatMap((r) =>
@@ -417,7 +418,7 @@ export default function CheckoutPage() {
                           </div>
                         </div>
                         <div className="text-sm font-medium">
-                          {opt.amount === 0 ? "Free" : formatPrice(Math.round(opt.amount / 100))}
+                          {opt.amount === 0 ? "Free" : formatPrice(Math.round(opt.amount / 100), currency)}
                         </div>
                       </label>
                     ))}
@@ -546,7 +547,7 @@ export default function CheckoutPage() {
                   {loading ? (
                     <Loader2 className="mr-2 size-5 animate-spin" />
                   ) : null}
-                  {loading ? "Placing order..." : `Pay ${formatPrice(total)}`}
+                  {loading ? "Placing order..." : `Pay ${formatPrice(total, currency)}`}
                 </Button>
               </div>
             </div>
@@ -577,7 +578,7 @@ export default function CheckoutPage() {
                   <div>{i.name}</div>
                   <div className="text-xs text-muted-foreground">{i.variantName}</div>
                 </div>
-                <div className="text-sm">{formatPrice(i.price * i.quantity)}</div>
+                <div className="text-sm">{formatPrice(i.price * i.quantity, i.currency)}</div>
               </li>
             ))}
           </ul>
@@ -585,7 +586,7 @@ export default function CheckoutPage() {
           <div className="space-y-1.5 text-sm">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>{formatPrice(subtotal)}</span>
+              <span>{formatPrice(subtotal, currency)}</span>
             </div>
             <div className="flex justify-between">
               <span>Shipping</span>
@@ -593,7 +594,7 @@ export default function CheckoutPage() {
                 {shippingCost === 0 && selectedShipping
                   ? "Free"
                   : selectedShipping
-                    ? formatPrice(shippingCost)
+                    ? formatPrice(shippingCost, currency)
                     : "Calculated at next step"}
               </span>
             </div>
@@ -601,7 +602,7 @@ export default function CheckoutPage() {
           <Separator className="my-4" />
           <div className="flex items-baseline justify-between">
             <span>Total</span>
-            <span className="font-display text-2xl">{formatPrice(total)}</span>
+            <span className="font-display text-2xl">{formatPrice(total, currency)}</span>
           </div>
         </aside>
       </div>
