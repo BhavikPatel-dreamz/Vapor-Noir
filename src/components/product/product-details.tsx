@@ -112,8 +112,8 @@ export function ProductDetails({ product }: { product: Product }) {
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="flex items-center rounded-md border border-border">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="flex items-center self-start rounded-md border border-border">
           <button aria-label="Decrease" onClick={() => setQty(Math.max(1, qty - 1))} className="p-3">
             <Minus className="size-4" />
           </button>
@@ -122,17 +122,19 @@ export function ProductDetails({ product }: { product: Product }) {
             <Plus className="size-4" />
           </button>
         </div>
-        <Button size="lg" className="flex-1" onClick={onAdd} disabled={!variant.inStock || isAdding}>
-          {isAdding ? <Loader2 className="size-5 animate-spin" /> : <ShoppingBag />}
-          {isAdding ? "Adding..." : variant.inStock ? "Add to cart" : "Sold out"}
-        </Button>
-        <Button size="lg" variant="outline" onClick={onBuyNow} disabled={!variant.inStock || isAdding}>
-          <Zap />
-          Buy now
-        </Button>
-        <Button size="lg" variant="outline" aria-label="Wishlist" onClick={() => wl.toggle(product.id)}>
-          <Heart className={cn(wl.ids.includes(product.id) && "fill-accent text-accent")} />
-        </Button>
+        <div className="flex gap-3">
+          <Button size="lg" className="flex-1 sm:flex-none" onClick={onAdd} disabled={!variant.inStock || isAdding}>
+            {isAdding ? <Loader2 className="size-5 animate-spin" /> : <ShoppingBag />}
+            {isAdding ? "Adding..." : variant.inStock ? "Add to cart" : "Sold out"}
+          </Button>
+          <Button size="lg" variant="outline" onClick={onBuyNow} disabled={!variant.inStock || isAdding}>
+            <Zap />
+            Buy now
+          </Button>
+          <Button size="lg" variant="outline" aria-label="Wishlist" onClick={() => wl.toggle(product.id)}>
+            <Heart className={cn(wl.ids.includes(product.id) && "fill-accent text-accent")} />
+          </Button>
+        </div>
       </div>
 
       <ul className="grid gap-2 pt-2 sm:grid-cols-2">

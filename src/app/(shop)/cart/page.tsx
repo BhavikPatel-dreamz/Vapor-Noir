@@ -33,19 +33,19 @@ export default function CartPage() {
       <div className="grid gap-10 lg:grid-cols-[1fr_400px]">
         <ul className="divide-y divide-border">
           {items.map((i) => (
-            <li key={i.id} className="flex gap-5 py-6">
-              <div className="relative size-20 shrink-0 overflow-hidden rounded-md bg-muted md:size-28">
+            <li key={i.id} className="flex gap-4 py-6 sm:gap-5">
+              <div className="relative size-16 shrink-0 overflow-hidden rounded-md bg-muted sm:size-20 md:size-28">
                 <Image src={i.image} alt={i.name} fill sizes="120px" className="object-cover" />
               </div>
-              <div className="flex flex-1 flex-col gap-2">
-                <div className="flex justify-between gap-4">
-                  <div>
-                    <Link href={`/product/${i.slug}`} className="font-display text-xl hover:text-primary">
+              <div className="flex min-w-0 flex-1 flex-col gap-2">
+                <div className="flex justify-between gap-3">
+                  <div className="min-w-0">
+                    <Link href={`/product/${i.slug}`} className="font-display text-lg hover:text-primary sm:text-xl">
                       {i.name}
                     </Link>
-                    <div className="text-sm text-muted-foreground">{i.variantName}</div>
+                    <div className="text-xs text-muted-foreground sm:text-sm">{i.variantName}</div>
                   </div>
-                  <div className="text-right">
+                  <div className="shrink-0 text-right">
                     <div className="font-medium">{formatPrice(i.price * i.quantity, i.currency)}</div>
                     <div className="text-xs text-muted-foreground">{formatPrice(i.price, i.currency)} each</div>
                   </div>
