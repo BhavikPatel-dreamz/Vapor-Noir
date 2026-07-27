@@ -248,10 +248,13 @@ export async function getProducts(opts?: {
     params.featured = "true";
   }
   if (opts?.sort === "price-asc") {
+    // Client-side sort — Medusa doesn't support price ordering via API
     list.sort((a, b) => a.price - b.price);
   } else if (opts?.sort === "price-desc") {
+    // Client-side sort
     list.sort((a, b) => b.price - a.price);
   } else if (opts?.sort === "rating") {
+    // Client-side sort
     list.sort((a, b) => b.rating - a.rating);
   }
 
@@ -409,9 +412,10 @@ const CART_FIELDS = [
   "*items.variant",
   "*region",
   "*region.countries",
-  "*shipping_methods",
-  "*payment_collection",
-  "*payment_collection.payment_sessions",
+  "payment_collection.id",
+  "payment_collection.cart_id",
+  "payment_collection.amount",
+  "payment_collection.payment_sessions",
 ].join(",");
 
 const ORDER_FIELDS = [
@@ -428,8 +432,9 @@ const ORDER_FIELDS = [
   "*items.variant",
   "*shipping_address",
   "*billing_address",
-  "*shipping_methods",
-  "*payment_collections",
+  "payment_collections.id",
+  "payment_collections.cart_id",
+  "payment_collections.amount",
 ].join(",");
 
 // ─── Cart types ──────────────────────────────────────────────────────────────
@@ -747,7 +752,7 @@ export async function completeCart(
   cartId: string,
 ): Promise<MedusaCompleteCartResponse> {
   const data = await sdk.client.fetch<MedusaCompleteCartResponse>(
-    `/store/carts/${cartId}/complete?fields=${encodeURIComponent(ORDER_FIELDS)}`,
+    `/store/carts/${cartId}/complete`,
     {
       method: "POST",
       headers: getCustomHeaders(),

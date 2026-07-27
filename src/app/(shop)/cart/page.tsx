@@ -12,8 +12,7 @@ export default function CartPage() {
   const { items, update, remove, removingItemId } = useCart();
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
   const currency = items[0]?.currency ?? "USD";
-  const shipping = subtotal > 75 || subtotal === 0 ? 0 : 8;
-  const total = subtotal + shipping;
+  const total = subtotal;
 
   if (items.length === 0) {
     return (
@@ -70,7 +69,7 @@ export default function CartPage() {
           <div className="mb-2 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Order summary</div>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between"><span>Subtotal</span><span>{formatPrice(subtotal, currency)}</span></div>
-            <div className="flex justify-between"><span>Shipping</span><span>{shipping === 0 ? "Free" : formatPrice(shipping, currency)}</span></div>
+            <div className="flex justify-between"><span>Shipping</span><span className="text-muted-foreground">Calculated at checkout</span></div>
           </div>
           <Separator className="my-4" />
           <div className="flex items-baseline justify-between">
