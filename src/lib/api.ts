@@ -390,6 +390,48 @@ const CATEGORY_ID_MAP: Record<string, string> = {
   "accessories": "pcat_01KXZBYS74DYK5EPNEGYMJGA37",
 };
 
+// ─── Cart fields (Medusa v2 requires explicit field selection) ───────────────
+
+const CART_FIELDS = [
+  "id",
+  "email",
+  "region_id",
+  "currency_code",
+  "total",
+  "subtotal",
+  "item_total",
+  "shipping_total",
+  "tax_total",
+  "*shipping_address",
+  "*billing_address",
+  "*items",
+  "*items.product",
+  "*items.variant",
+  "*region",
+  "*region.countries",
+  "*shipping_methods",
+  "*payment_collection",
+  "*payment_collection.payment_sessions",
+].join(",");
+
+const ORDER_FIELDS = [
+  "id",
+  "display_id",
+  "email",
+  "currency_code",
+  "total",
+  "subtotal",
+  "tax_total",
+  "shipping_total",
+  "*items",
+  "*items.product",
+  "*items.variant",
+  "*shipping_address",
+  "*billing_address",
+  "*shipping_methods",
+  "*payment_collections",
+].join(",");
+
 // ─── Cart types ──────────────────────────────────────────────────────────────
 
 export type MedusaCart = {
@@ -496,22 +538,27 @@ function getCustomHeaders(): Record<string, string> {
 }
 
 export async function createCart(): Promise<MedusaCart> {
-  // Prefer the EUR (Europe) region so Medusa prices line-items in EUR from the start
   const regionId = await getDefaultRegionId().catch(() => undefined);
 
-  const data = await sdk.client.fetch<{ cart: MedusaCart }>(`/store/carts`, {
-    method: "POST",
-    headers: getCustomHeaders(),
-    body: regionId ? { region_id: regionId } : {},
-  });
+  const data = await sdk.client.fetch<{ cart: MedusaCart }>(
+    `/store/carts?fields=${encodeURIComponent(CART_FIELDS)}`,
+    {
+      method: "POST",
+      headers: getCustomHeaders(),
+      body: regionId ? { region_id: regionId } : {},
+    },
+  );
 
   return data.cart;
 }
 
 export async function getCart(cartId: string): Promise<MedusaCart> {
-  const data = await sdk.client.fetch<{ cart: MedusaCart }>(`/store/carts/${cartId}`, {
-    headers: getCustomHeaders(),
-  });
+  const data = await sdk.client.fetch<{ cart: MedusaCart }>(
+    `/store/carts/${cartId}?fields=${encodeURIComponent(CART_FIELDS)}`,
+    {
+      headers: getCustomHeaders(),
+    },
+  );
 
   return data.cart;
 }
@@ -522,7 +569,7 @@ export async function addToCart(
   quantity: number = 1,
 ): Promise<MedusaCart> {
   const data = await sdk.client.fetch<{ cart: MedusaCart }>(
-    `/store/carts/${cartId}/line-items`,
+    `/store/carts/${cartId}/line-items?fields=${encodeURIComponent(CART_FIELDS)}`,
     {
       method: "POST",
       headers: getCustomHeaders(),
@@ -539,7 +586,7 @@ export async function updateCartItem(
   quantity: number,
 ): Promise<MedusaCart> {
   const data = await sdk.client.fetch<{ cart: MedusaCart }>(
-    `/store/carts/${cartId}/line-items/${lineItemId}`,
+    `/store/carts/${cartId}/line-items/${lineItemId}?fields=${encodeURIComponent(CART_FIELDS)}`,
     {
       method: "POST",
       headers: getCustomHeaders(),
@@ -555,7 +602,7 @@ export async function removeCartItem(
   lineItemId: string,
 ): Promise<MedusaCart> {
   const data = await sdk.client.fetch<{ cart?: MedusaCart }>(
-    `/store/carts/${cartId}/line-items/${lineItemId}`,
+    `/store/carts/${cartId}/line-items/${lineItemId}?fields=${encodeURIComponent(CART_FIELDS)}`,
     {
       method: "DELETE",
       headers: getCustomHeaders(),
@@ -595,11 +642,14 @@ export async function updateCart(
     billing_address?: Omit<MedusaAddress, "id">;
   },
 ): Promise<MedusaCart> {
-  const result = await sdk.client.fetch<{ cart: MedusaCart }>(`/store/carts/${cartId}`, {
-    method: "POST",
-    headers: getCustomHeaders(),
-    body: data,
-  });
+  const result = await sdk.client.fetch<{ cart: MedusaCart }>(
+    `/store/carts/${cartId}?fields=${encodeURIComponent(CART_FIELDS)}`,
+    {
+      method: "POST",
+      headers: getCustomHeaders(),
+      body: data,
+    },
+  );
 
   return result.cart;
 }
@@ -623,7 +673,7 @@ export async function setShippingMethod(
   shippingOptionId: string,
 ): Promise<MedusaCart> {
   const data = await sdk.client.fetch<{ cart: MedusaCart }>(
-    `/store/carts/${cartId}/shipping-methods`,
+    `/store/carts/${cartId}/shipping-methods?fields=${encodeURIComponent(CART_FIELDS)}`,
     {
       method: "POST",
       headers: getCustomHeaders(),
@@ -697,7 +747,7 @@ export async function completeCart(
   cartId: string,
 ): Promise<MedusaCompleteCartResponse> {
   const data = await sdk.client.fetch<MedusaCompleteCartResponse>(
-    `/store/carts/${cartId}/complete`,
+    `/store/carts/${cartId}/complete?fields=${encodeURIComponent(ORDER_FIELDS)}`,
     {
       method: "POST",
       headers: getCustomHeaders(),
