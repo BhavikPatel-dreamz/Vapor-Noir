@@ -1,0 +1,59 @@
+import { Instagram } from "lucide-react";
+import Image from "next/image";
+
+const feedImages = [
+  { id: 1, url: "/images/generated/community_shot_1_1785229249506.jpg", handle: "@vapornoir_official" },
+  { id: 2, url: "/images/generated/community_shot_2_1785229268515.jpg", handle: "@vape_connoisseur" },
+  { id: 3, url: "/images/generated/community_shot_3_1785229287427.jpg", handle: "@nordic_edits" },
+  { id: 4, url: "/images/generated/blog_temperature_guide_1785229088200.jpg", handle: "@atelier_craft" },
+];
+
+export function InstagramGallery() {
+  return (
+    <section className="border-t border-border py-16 md:py-24">
+      <div className="container-x mb-8 flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
+        <div>
+          <div className="mb-1 text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
+            Follow @VAPORNOIR
+          </div>
+          <h2 className="font-display text-3xl tracking-tight md:text-4xl">
+            In the wild with our community
+          </h2>
+        </div>
+        <a
+          href="https://instagram.com"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 text-xs font-medium uppercase tracking-wider transition-colors hover:border-primary hover:text-primary"
+        >
+          <Instagram className="size-4" /> Follow on Instagram
+        </a>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 px-3 md:grid-cols-4 md:gap-4 md:px-6">
+        {feedImages.map((img) => (
+          <a
+            key={img.id}
+            href="https://instagram.com"
+            target="_blank"
+            rel="noreferrer"
+            className="group relative aspect-square overflow-hidden rounded-xl bg-muted"
+          >
+            <Image
+              src={img.url}
+              alt="Community shot"
+              fill
+              sizes="(min-width: 768px) 25vw, 50vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-background/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex flex-col items-center justify-center p-4 text-center">
+              <Instagram className="size-8 text-primary mb-2" />
+              <span className="text-xs font-mono font-medium text-foreground">{img.handle}</span>
+              <span className="mt-1 text-[10px] text-muted-foreground uppercase tracking-widest">Tag #VaporNoir to be featured</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}

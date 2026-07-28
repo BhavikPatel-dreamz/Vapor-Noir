@@ -6,21 +6,21 @@ export function Footer() {
     <footer className="mt-12 border-t border-border bg-muted/20 md:mt-24">
       <div className="container-x grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-5">
         <div className="lg:col-span-2">
-          <div className="font-display text-2xl tracking-tight">
-            Vapor <span className="text-primary">Noir</span>
+          <div className="flex items-center gap-3 font-display text-2xl tracking-tight">
+            <img src="/logo.svg" alt="Vapor Noir Logo" className="size-8 rounded-lg" />
+            <span>Vapor <span className="text-primary">Noir</span></span>
           </div>
           <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-            Craft-engineered vaporizers and small-batch e-liquids. Designed in Copenhagen, built to
-            last.
+            Craft-engineered vaporizers, dry herb pieces, and small-batch extracts. Designed in Copenhagen, built to last.
           </p>
           <div className="mt-6 flex gap-3">
-            <a href="#" className="rounded-full border border-border p-2 hover:bg-muted"><Instagram className="size-4" /></a>
-            <a href="#" className="rounded-full border border-border p-2 hover:bg-muted"><Youtube className="size-4" /></a>
-            <a href="#" className="rounded-full border border-border p-2 hover:bg-muted"><Twitter className="size-4" /></a>
+            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="rounded-full border border-border p-2 hover:bg-muted hover:text-primary"><Instagram className="size-4" /></a>
+            <a href="https://youtube.com" target="_blank" rel="noreferrer" className="rounded-full border border-border p-2 hover:bg-muted hover:text-primary"><Youtube className="size-4" /></a>
+            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="rounded-full border border-border p-2 hover:bg-muted hover:text-primary"><Twitter className="size-4" /></a>
           </div>
         </div>
         {[
-          { title: "Shop", links: [["Vaporizers", "/shop?category=vaporizers"], ["Pods & Mods", "/shop?category=pods-and-mods"], ["E-Liquids", "/shop?category=e-liquids"], ["Accessories", "/shop?category=accessories"]] },
+          { title: "Shop Catalog", links: [["Spoons", "/shop?category=spoons"], ["Bubblers & Rigs", "/shop?category=bubblers-rigs"], ["Collector Bundles", "/shop?category=bundles"], ["Accessories & Apparel", "/shop?category=accessories"]] },
           { title: "Support", links: [["Contact", "/contact"], ["Shipping", "/about"], ["Returns", "/about"], ["Warranty", "/about"]] },
           { title: "Company", links: [["About", "/about"], ["Journal", "/about"], ["Stores", "/about"], ["Careers", "/about"]] },
         ].map((col) => (

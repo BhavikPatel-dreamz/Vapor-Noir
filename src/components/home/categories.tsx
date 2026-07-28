@@ -9,8 +9,8 @@ export async function Categories() {
     <section className="container-x py-16 md:py-24">
       <div className="mb-10 flex items-end justify-between gap-6">
         <div>
-          <div className="mb-2 text-[11px] uppercase tracking-[0.25em] text-muted-foreground">01 · Categories</div>
-          <h2 className="font-display text-4xl tracking-tight md:text-5xl">Curated collections</h2>
+          <h2 className="font-display text-4xl tracking-tight md:text-5xl">Curated Collections</h2>
+          <p className="mt-2 text-sm text-muted-foreground">Explore handcrafted pieces, water-filtered rigs, and collector bundles.</p>
         </div>
         <Link href="/shop" className="hidden text-sm text-primary hover:underline md:inline-flex">
           View all →

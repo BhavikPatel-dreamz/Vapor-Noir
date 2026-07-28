@@ -11,10 +11,8 @@ export function Testimonials() {
   return (
     <section className="border-y border-border bg-muted/20 py-16 md:py-24">
       <div className="container-x">
-        <div className="mb-2 text-center text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
-          03 · From our community
-        </div>
-        <h2 className="text-center font-display text-3xl tracking-tight md:text-5xl">Loved by 40,000+ enthusiasts</h2>
+        <h2 className="text-center font-display text-3xl tracking-tight md:text-5xl">Customer Reviews & Ratings</h2>
+        <p className="mt-2 text-center text-sm text-muted-foreground">See what real enthusiasts say about our devices and shipping experience.</p>
         <div className="mx-auto mt-8 max-w-3xl md:mt-12">
           <Swiper
             modules={[Autoplay, Pagination]}

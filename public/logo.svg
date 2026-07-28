@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <!-- Dark luxury metallic background gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141417" />
+      <stop offset="100%" stop-color="#08080a" />
+    </linearGradient>
+    
+    <!-- Warm gold accent gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="50%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    
+    <!-- Subtle glow effect -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Container Box -->
+  <rect width="120" height="120" rx="28" fill="url(#bgGrad)" stroke="#27272a" stroke-width="2" />
+  
+  <!-- Subtle inner border ring -->
+  <rect x="6" y="6" width="108" height="108" rx="22" fill="none" stroke="url(#goldGrad)" stroke-opacity="0.2" stroke-width="1" />
+
+  <!-- Monogram Logo Mark: V & N intertwined with sleek vapor line curves -->
+  <g transform="translate(24, 26)" filter="url(#glow)">
+    <!-- Stylized 'V' -->
+    <path d="M 6 12 L 28 62 L 36 62 L 50 30" fill="none" stroke="url(#goldGrad)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" />
+    
+    <!-- Stylized Intertwined 'N' -->
+    <path d="M 36 62 L 36 12 L 66 62 L 66 12" fill="none" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.9" />
+
+    <!-- Vapor Ring Accent Motif -->
+    <path d="M 12 18 C 22 10, 44 10, 58 16" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linecap="round" opacity="0.6" />
+  </g>
+</svg>
