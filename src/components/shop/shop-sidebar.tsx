@@ -26,8 +26,8 @@ export function ShopSidebar({
       {sp.q && <input type="hidden" name="q" value={sp.q} />}
 
       <SidebarFilterSection title="Categories" defaultOpen>
-        <div className="space-y-1">
-          <label className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted">
+        <div className="space-y-0.5">
+          <label className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-all duration-200 hover:bg-muted/80 hover:text-foreground cursor-pointer">
             <input
               type="radio"
               name="category"
@@ -35,10 +35,10 @@ export function ShopSidebar({
               defaultChecked={!sp.category}
               className="size-4 border-border accent-primary"
             />
-            All
+            All Categories
           </label>
           {cats.map((c) => (
-            <label key={c.slug} className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted">
+            <label key={c.slug} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-all duration-200 hover:bg-muted/80 hover:text-foreground cursor-pointer">
               <input
                 type="radio"
                 name="category"
@@ -54,8 +54,8 @@ export function ShopSidebar({
 
       {collections.length > 0 && (
         <SidebarFilterSection title="Collections">
-          <div className="space-y-1">
-            <label className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted">
+          <div className="space-y-0.5">
+            <label className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-all duration-200 hover:bg-muted/80 hover:text-foreground cursor-pointer">
               <input
                 type="radio"
                 name="collection"
@@ -63,10 +63,10 @@ export function ShopSidebar({
                 defaultChecked={!sp.collection}
                 className="size-4 border-border accent-primary"
               />
-              All
+              All Collections
             </label>
             {collections.map((col) => (
-              <label key={col.slug} className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted">
+              <label key={col.slug} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-all duration-200 hover:bg-muted/80 hover:text-foreground cursor-pointer">
                 <input
                   type="radio"
                   name="collection"
@@ -81,7 +81,7 @@ export function ShopSidebar({
         </SidebarFilterSection>
       )}
 
-      <SidebarFilterSection title="Price Range">
+      <SidebarFilterSection title="Price Range" defaultOpen>
         <PriceRangeSlider
           min={priceMin}
           max={priceMax}
@@ -91,8 +91,8 @@ export function ShopSidebar({
       </SidebarFilterSection>
 
       <SidebarFilterSection title="Availability">
-        <div className="space-y-1">
-          <label className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted">
+        <div className="space-y-0.5">
+          <label className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-all duration-200 hover:bg-muted/80 hover:text-foreground cursor-pointer">
             <input
               type="checkbox"
               name="inStock"
@@ -102,7 +102,7 @@ export function ShopSidebar({
             />
             In Stock
           </label>
-          <label className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted">
+          <label className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-all duration-200 hover:bg-muted/80 hover:text-foreground cursor-pointer">
             <input
               type="checkbox"
               name="onSale"
@@ -115,10 +115,10 @@ export function ShopSidebar({
         </div>
       </SidebarFilterSection>
 
-      <div className="border-t border-border pt-6">
+      <div className="border-t border-border pt-6 mt-2">
         <button
           type="submit"
-          className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-medium uppercase tracking-widest text-primary-foreground hover:bg-primary/90"
+          className="w-full rounded-xl bg-primary px-4 py-3.5 text-sm font-medium uppercase tracking-widest text-primary-foreground transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20"
         >
           Apply Filters
         </button>
@@ -139,11 +139,11 @@ function SidebarFilterSection({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-t border-border pt-6">
+    <div className="border-t border-border pt-5">
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
+        className="flex w-full items-center justify-between text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
       >
         {title}
         <ChevronRight
@@ -151,12 +151,12 @@ function SidebarFilterSection({
         />
       </button>
       <div
-        className={`grid transition-all duration-200 ease-in-out ${
+        className={`grid transition-all duration-250 ease-in-out ${
           open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         }`}
       >
         <div className="overflow-hidden">
-          <div className="pt-4">{children}</div>
+          <div className="pt-3">{children}</div>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getCategories, getCollections, getProducts } from "@/lib/api";
 import { ProductCard } from "@/components/product/product-card";
 import { ShopToolbar } from "@/components/shop/shop-toolbar";
+import { ShopPageContent } from "@/components/shop/shop-page-content";
 
 export const metadata: Metadata = {
   title: "Shop all",
@@ -43,86 +44,17 @@ export default async function ShopPage({
   const active = sp.category;
 
   return (
-    <div className="container-x py-14">
-      <div className="mb-10">
-        <div className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground">Collection</div>
-        <h1 className="mt-2 font-display text-4xl tracking-tight md:text-5xl lg:text-6xl">
-          {active ? cats.find((c) => c.slug === active)?.name ?? "Shop" : "Shop all"}
-        </h1>
-      </div>
-
-      <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
-        <div className="flex-1 min-w-0">
-          <ShopToolbar
-            cats={cats}
-            collections={collections}
-            sp={sp as Record<string, string | undefined>}
-            priceMin={priceMin}
-            priceMax={priceMax}
-            totalProducts={filtered.length}
-          />
-
-          {products.length === 0 ? (
-            <div className="py-24 text-center text-muted-foreground">No products found.</div>
-          ) : (
-            <>
-              <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 xl:grid-cols-3">
-                {products.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
-              </div>
-              {totalPages > 1 && (
-                <nav className="mt-12 flex items-center justify-center gap-2">
-                  {page > 1 && (
-                    <Link
-                      href={buildHref({ ...sp, page: page - 1 })}
-                      className="rounded-full border border-border px-4 py-2 text-xs uppercase tracking-widest hover:bg-muted"
-                    >
-                      ← Prev
-                    </Link>
-                  )}
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                    <Link
-                      key={p}
-                      href={buildHref({ ...sp, page: p })}
-                      className={`rounded-full px-4 py-2 text-xs ${
-                        p === page
-                          ? "bg-primary text-primary-foreground"
-                          : "border border-border hover:bg-muted"
-                      }`}
-                    >
-                      {p}
-                    </Link>
-                  ))}
-                  {page < totalPages && (
-                    <Link
-                      href={buildHref({ ...sp, page: page + 1 })}
-                      className="rounded-full border border-border px-4 py-2 text-xs uppercase tracking-widest hover:bg-muted"
-                    >
-                      Next →
-                    </Link>
-                  )}
-                </nav>
-              )}
-            </>
-          )}
-        </div>
-      </div>
-    </div>
+    <ShopPageContent
+      cats={cats}
+      collections={collections}
+      sp={sp}
+      priceMin={priceMin}
+      priceMax={priceMax}
+      products={products}
+      filtered={filtered}
+      page={page}
+      totalPages={totalPages}
+      active={active}
+    />
   );
-}
-
-function buildHref(sp: Record<string, string | number | undefined>, overrides: Record<string, string | number | undefined> = {}) {
-  const merged = { ...sp, ...overrides };
-  const params = new URLSearchParams();
-  if (merged.category) params.set("category", String(merged.category));
-  if (merged.collection) params.set("collection", String(merged.collection));
-  if (merged.sort) params.set("sort", String(merged.sort));
-  if (merged.q) params.set("q", String(merged.q));
-  if (merged.minPrice) params.set("minPrice", String(merged.minPrice));
-  if (merged.maxPrice) params.set("maxPrice", String(merged.maxPrice));
-  if (merged.inStock === "1") params.set("inStock", "1");
-  if (merged.onSale === "1") params.set("onSale", "1");
-  const p = Number(merged.page) || 1;
-  if (p > 1) params.set("page", String(p));
-  const qs = params.toString();
-  return `/shop${qs ? `?${qs}` : ""}`;
 }

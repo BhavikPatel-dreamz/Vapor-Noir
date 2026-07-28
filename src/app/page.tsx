@@ -1,30 +1,33 @@
 import { Hero } from "@/components/home/hero";
-import { Categories } from "@/components/home/categories";
-import { FeaturedGrid } from "@/components/home/featured-grid";
 import { ValueProps } from "@/components/home/value-props";
-import { EditorialSplit } from "@/components/home/editorial-split";
-import { Craftsmanship } from "@/components/home/craftsmanship";
+import { Categories } from "@/components/home/categories";
+import { FeaturedGridServer } from "@/components/home/featured-grid";
 import { SpecialPromos } from "@/components/home/promos";
+import { Craftsmanship } from "@/components/home/craftsmanship";
+import { EditorialSplit } from "@/components/home/editorial-split";
 import { BlogSection } from "@/components/home/blog-section";
+import { Testimonials } from "@/components/home/testimonials";
 import { FAQSection } from "@/components/home/faq-section";
 import { InstagramGallery } from "@/components/home/instagram-gallery";
-import { Testimonials } from "@/components/home/testimonials";
 import { Newsletter } from "@/components/home/newsletter";
+import { BrandMarquee } from "@/components/home/brand-marquee";
 import { getProducts } from "@/lib/api";
 
 export default async function HomePage() {
-  const { products: list } = await getProducts({ limit: 1 });
-  const heroProduct = list[0] ?? null;
+  const { products: list } = await getProducts({ limit: 2 });
+  const heroProduct = list[1] ?? list[0] ?? null;
 
   return (
     <>
       <Hero product={heroProduct} />
+      <BrandMarquee />
       <ValueProps />
       <Categories />
-      <FeaturedGrid />
+      <FeaturedGridServer />
+      <BrandMarquee />
       <SpecialPromos />
       <Craftsmanship />
-      <EditorialSplit />
+      <EditorialSplit product={heroProduct} />
       <BlogSection />
       <Testimonials />
       <FAQSection />

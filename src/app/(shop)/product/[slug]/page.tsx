@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProductBySlug, getRelatedProducts, getProducts } from "@/lib/api";
-import { ProductGallery } from "@/components/product/product-gallery";
-import { ProductDetails } from "@/components/product/product-details";
-import { ProductCard } from "@/components/product/product-card";
+import { ProductPageContent } from "@/components/product/product-page-content";
 
 export async function generateStaticParams() {
   const { products: list } = await getProducts();
@@ -33,26 +31,5 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   if (!product) notFound();
   const related = await getRelatedProducts(slug);
 
-  return (
-    <>
-      <section className="container-x py-10 md:py-16">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <ProductGallery images={product.images} alt={product.name} />
-          <ProductDetails product={product} />
-        </div>
-      </section>
-
-      {related.length > 0 && (
-        <section className="container-x py-16">
-          <div className="mb-8">
-            <div className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground">You may also like</div>
-            <h2 className="mt-1 font-display text-3xl tracking-tight md:text-4xl">More from {product.category.replace(/-/g, " ")}</h2>
-          </div>
-          <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-            {related.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
-          </div>
-        </section>
-      )}
-    </>
-  );
+  return <ProductPageContent product={product} related={related} />;
 }
