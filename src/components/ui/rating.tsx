@@ -9,14 +9,14 @@ export function Rating({ value, count, className }: { value: number; count?: num
           <Star
             key={n}
             className={cn(
-              "size-3.5 transition-colors duration-200",
-              n <= Math.round(value) ? "fill-primary/90 text-primary" : "text-muted-foreground/30",
+              "size-3.5",
+              n <= Math.round(value) ? "fill-[#FFC107] text-[#FFC107]" : "text-[#ddd]",
             )}
           />
         ))}
       </div>
-      <span className="text-[11px] text-muted-foreground font-medium">
-        {value.toFixed(1)}{count != null && <span className="font-normal"> · {count}</span>}
+      <span className="text-[11px] font-bold text-muted-foreground">
+        {value.toFixed(1)}{count != null && <span> ({count})</span>}
       </span>
     </div>
   );

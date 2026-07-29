@@ -1,17 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Package, Truck, Shield, Sparkles, Grid3X3, LayoutList } from "lucide-react";
+import { Package, Truck, Shield, Sparkles, Star, ShoppingBag } from "lucide-react";
 import { ProductCard } from "@/components/product/product-card";
 import { ShopToolbar } from "@/components/shop/shop-toolbar";
 import type { Category, Collection, Product } from "@/types/product";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 type Params = Record<string, string | undefined>;
 
@@ -57,132 +50,35 @@ export function ShopPageContent({
   totalPages,
   active,
 }: ShopPageContentProps) {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-  const paginationRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (headerRef.current) {
-        const items = Array.from(headerRef.current!.children);
-        gsap.set(items, { y: 30, opacity: 0 });
-        gsap.to(items, {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power3.out",
-          stagger: 0.12,
-        });
-      }
-
-      if (statsRef.current) {
-        const items = Array.from(statsRef.current!.children);
-        gsap.set(items, { y: 15, opacity: 0 });
-        gsap.to(items, {
-          y: 0,
-          opacity: 1,
-          duration: 0.5,
-          ease: "power3.out",
-          stagger: 0.06,
-          delay: 0.5,
-        });
-      }
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  useEffect(() => {
-    const el = gridRef.current;
-    if (!el || products.length === 0) return;
-
-    const children = Array.from(el.children);
-
-    gsap.set(children, { y: 40, opacity: 0, scale: 0.97 });
-
-    const tween = gsap.to(children, {
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      duration: 0.6,
-      ease: "power3.out",
-      stagger: {
-        each: 0.06,
-        from: "start",
-      },
-      scrollTrigger: {
-        trigger: el,
-        start: "top 88%",
-        once: true,
-      },
-    });
-
-    return () => {
-      tween.kill();
-      ScrollTrigger.getAll().forEach((st) => {
-        if (st.trigger === el) st.kill();
-      });
-    };
-  }, [products]);
-
-  useEffect(() => {
-    if (!paginationRef.current) return;
-    const el = paginationRef.current;
-
-    gsap.set(el, { y: 20, opacity: 0 });
-    const tween = gsap.to(el, {
-      y: 0,
-      opacity: 1,
-      duration: 0.6,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: el,
-        start: "top 95%",
-        once: true,
-      },
-    });
-
-    return () => {
-      tween.kill();
-    };
-  }, [totalPages]);
-
   const stats = [
-    { icon: Package, label: "Products", value: filtered.length },
-    { icon: Truck, label: "Free Shipping", value: "$75+" },
-    { icon: Shield, label: "Warranty", value: "3 Years" },
-    { icon: Sparkles, label: "New This Week", value: "12+" },
+    { icon: Package, label: "Products", value: filtered.length, color: "#1565C0", bg: "#E3F2FD" },
+    { icon: Truck, label: "Free Shipping", value: "$75+", color: "#2E7D32", bg: "#E8F5E9" },
+    { icon: Shield, label: "Warranty", value: "3 Years", color: "#F57C00", bg: "#FFF3E0" },
+    { icon: Sparkles, label: "New This Week", value: "12+", color: "#D32F2F", bg: "#FFEBEE" },
   ];
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-border shop-hero-gradient">
-        <div className="container-x py-12 md:py-16">
-          <div ref={headerRef}>
-            <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
-              <span className="size-1.5 rounded-full bg-primary" />
-              Collection
-            </div>
-            <h1 className="mt-3 font-display text-4xl tracking-tight md:text-5xl lg:text-6xl">
-              {active ? cats.find((c) => c.slug === active)?.name ?? "Shop" : "Shop All"}
-            </h1>
-            <p className="mt-3 max-w-xl text-sm text-muted-foreground md:text-base">
-              Discover our curated collection of premium vaporizers, artisan e-liquids, and handcrafted accessories.
-            </p>
-          </div>
+    <div className="bg-white">
+      {/* Header */}
+      <section className="border-b-2 border-border bg-gradient-to-r from-[#1565C0] to-[#0D47A1]">
+        <div className="container-x py-8">
+          <h1 className="text-[30px] font-black text-white">
+            {active ? cats.find((c) => c.slug === active)?.name ?? "Shop" : "Shop All Products"}
+          </h1>
+          <p className="mt-1 text-sm text-white/70">
+            Browse our full collection of premium vaporizers, e-liquids, and accessories.
+          </p>
 
-          <div ref={statsRef} className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {stats.map(({ icon: Icon, label, value }) => (
-              <div key={label} className="glass-card rounded-lg px-4 py-3">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {stats.map(({ icon: Icon, label, value, color, bg }) => (
+              <div key={label} className="border-2 border-white/20 bg-white/10 backdrop-blur px-4 py-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex size-8 items-center justify-center rounded-md bg-primary/10">
-                    <Icon className="size-4 text-primary" />
+                  <div className="flex size-9 items-center justify-center" style={{ backgroundColor: color, color: "white" }}>
+                    <Icon className="size-4" />
                   </div>
                   <div>
-                    <div className="text-xs text-muted-foreground">{label}</div>
-                    <div className="text-sm font-medium">{value}</div>
+                    <div className="text-xs text-white/60">{label}</div>
+                    <div className="text-base font-black text-white">{value}</div>
                   </div>
                 </div>
               </div>
@@ -191,113 +87,107 @@ export function ShopPageContent({
         </div>
       </section>
 
-      {/* Breadcrumb + Toolbar + Grid */}
-      <section className="container-x py-10">
+      {/* Breadcrumb + Content */}
+      <section className="container-x py-6">
         {/* Breadcrumb */}
-        <nav className="mb-6 flex items-center gap-2 text-xs text-muted-foreground">
-          <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
-          <span>/</span>
+        <nav className="mb-4 flex items-center gap-2 text-xs text-muted-foreground">
+          <Link href="/" className="hover:text-[#1565C0]">Home</Link>
+          <span className="text-[#1565C0] font-bold">/</span>
           {active ? (
             <>
-              <Link href="/shop" className="hover:text-foreground transition-colors">Shop</Link>
-              <span>/</span>
-              <span className="text-foreground">{cats.find((c) => c.slug === active)?.name ?? active}</span>
+              <Link href="/shop" className="hover:text-[#1565C0]">Shop</Link>
+              <span className="text-[#1565C0] font-bold">/</span>
+              <span className="text-foreground font-bold">{cats.find((c) => c.slug === active)?.name ?? active}</span>
             </>
           ) : (
-            <span className="text-foreground">Shop</span>
+            <span className="text-foreground font-bold">Shop</span>
           )}
         </nav>
 
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
-          <div className="flex-1 min-w-0">
-            <ShopToolbar
-              cats={cats}
-              collections={collections}
-              sp={sp as Record<string, string | undefined>}
-              priceMin={priceMin}
-              priceMax={priceMax}
-              totalProducts={filtered.length}
-            />
+        <ShopToolbar
+          cats={cats}
+          collections={collections}
+          sp={sp as Record<string, string | undefined>}
+          priceMin={priceMin}
+          priceMax={priceMax}
+          totalProducts={filtered.length}
+        />
 
-            {products.length === 0 ? (
-              <div className="py-24 text-center">
-                <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-muted">
-                  <Package className="size-7 text-muted-foreground" />
-                </div>
-                <div className="text-lg font-display">No products found</div>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Try adjusting your filters or search terms.
-                </p>
-                <Link
-                  href="/shop"
-                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-xs font-medium uppercase tracking-widest text-primary-foreground hover:bg-primary/90 transition-colors"
-                >
-                  Clear all filters
-                </Link>
-              </div>
-            ) : (
-              <>
-                <div ref={gridRef} className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {products.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
-                </div>
-
-                {totalPages > 1 && (
-                  <nav ref={paginationRef} className="mt-14 flex items-center justify-center gap-2">
-                    {page > 1 && (
-                      <Link
-                        href={buildHref({ ...sp, page: String(page - 1) })}
-                        className="rounded-full border border-border px-5 py-2 text-xs uppercase tracking-widest hover:bg-muted transition-colors"
-                      >
-                        ← Prev
-                      </Link>
-                    )}
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                      <Link
-                        key={p}
-                        href={buildHref({ ...sp, page: String(p) })}
-                        className={`rounded-full px-4 py-2 text-xs transition-all duration-300 ${
-                          p === page
-                            ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                            : "border border-border hover:bg-muted hover:border-primary/30"
-                        }`}
-                      >
-                        {p}
-                      </Link>
-                    ))}
-                    {page < totalPages && (
-                      <Link
-                        href={buildHref({ ...sp, page: String(page + 1) })}
-                        className="rounded-full border border-border px-5 py-2 text-xs uppercase tracking-widest hover:bg-muted transition-colors"
-                      >
-                        Next →
-                      </Link>
-                    )}
-                  </nav>
-                )}
-              </>
-            )}
+        {products.length === 0 ? (
+          <div className="py-16 text-center border-2 border-border bg-[#E3F2FD]">
+            <Package className="mx-auto mb-4 size-12 text-[#1565C0]/40" />
+            <div className="text-lg font-bold text-[#1565C0]">No products found</div>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Try adjusting your filters or search terms.
+            </p>
+            <Link
+              href="/shop"
+              className="mt-4 inline-flex items-center gap-2 bg-[#1565C0] text-white font-bold text-sm px-6 py-3 border-b-2 border-[#0D47A1] hover:bg-[#0D47A1] transition-all rounded-sm"
+            >
+              Clear All Filters
+            </Link>
           </div>
-        </div>
+        ) : (
+          <>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {products.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
+            </div>
+
+            {totalPages > 1 && (
+              <nav className="mt-8 flex items-center justify-center gap-2">
+                {page > 1 && (
+                  <Link
+                    href={buildHref({ ...sp, page: String(page - 1) })}
+                    className="border-2 border-[#1565C0] px-5 py-2.5 text-xs font-bold text-[#1565C0] hover:bg-[#E3F2FD] transition-colors rounded-sm"
+                  >
+                    &larr; Prev
+                  </Link>
+                )}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                  <Link
+                    key={p}
+                    href={buildHref({ ...sp, page: String(p) })}
+                    className={`px-5 py-2.5 text-xs font-bold border-2 transition-all rounded-sm ${
+                      p === page
+                        ? "bg-[#1565C0] text-white border-[#1565C0]"
+                        : "border-border hover:border-[#1565C0] hover:text-[#1565C0]"
+                    }`}
+                  >
+                    {p}
+                  </Link>
+                ))}
+                {page < totalPages && (
+                  <Link
+                    href={buildHref({ ...sp, page: String(page + 1) })}
+                    className="border-2 border-[#1565C0] px-5 py-2.5 text-xs font-bold text-[#1565C0] hover:bg-[#E3F2FD] transition-colors rounded-sm"
+                  >
+                    Next &rarr;
+                  </Link>
+                )}
+              </nav>
+            )}
+          </>
+        )}
       </section>
 
       {/* Bottom trust bar */}
-      <section className="border-t border-border bg-card/30">
-        <div className="container-x py-8">
-          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+      <section className="border-t-2 border-border bg-[#FFF8E1]">
+        <div className="container-x py-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-3 text-xs font-bold uppercase tracking-wide">
             <span className="flex items-center gap-2">
-              <Truck className="size-4 text-primary" />
+              <Truck className="size-4 text-[#1565C0]" />
               Free shipping over $75
             </span>
             <span className="flex items-center gap-2">
-              <Shield className="size-4 text-primary" />
+              <Shield className="size-4 text-[#2E7D32]" />
               3-year warranty
             </span>
             <span className="flex items-center gap-2">
-              <Package className="size-4 text-primary" />
+              <Package className="size-4 text-[#F57C00]" />
               30-day returns
             </span>
             <span className="flex items-center gap-2">
-              <Sparkles className="size-4 text-primary" />
+              <Sparkles className="size-4 text-[#D32F2F]" />
               Authentic guarantee
             </span>
           </div>

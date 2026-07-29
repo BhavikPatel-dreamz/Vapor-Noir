@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -7,33 +6,20 @@ import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { AgeGate } from "@/components/layout/age-gate";
 import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://vapornoir.example"),
   title: {
-    default: "Vapor Noir — Premium Vaporizers & Accessories",
-    template: "%s · Vapor Noir",
+    default: "Vapor Store — #1 Online Vape Store | Disposables, Pod Kits & E-Liquids",
+    template: "%s · Vapor Store",
   },
   description:
-    "Craft-engineered vaporizers, curated e-liquids and accessories. Designed for the discerning enthusiast.",
-  openGraph: {
-    title: "Vapor Noir — Premium Vaporizers",
-    description: "Craft-engineered vaporizers and accessories.",
-    type: "website",
-  },
-  twitter: { card: "summary_large_image" },
+    "🔥 Shop 500+ premium vape products at Vapor Store. Free shipping over $75. Best prices guaranteed on disposables, pod kits, e-liquids & accessories. 30-day returns.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} dark`}>
-      <body className="min-h-screen bg-background text-foreground antialiased">
+    <html lang="en">
+      <body className="min-h-screen bg-muted text-foreground">
         <AgeGate />
         <AnnouncementBar />
         <Navbar />

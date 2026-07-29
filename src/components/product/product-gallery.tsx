@@ -1,90 +1,30 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function ProductGallery({ images, alt }: { images: string[]; alt: string }) {
   const [active, setActive] = useState(0);
-  const mainRef = useRef<HTMLDivElement>(null);
-  const thumbsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (mainRef.current) {
-        gsap.set(mainRef.current, { scale: 0.95, opacity: 0 });
-        gsap.to(mainRef.current, {
-          scale: 1,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out",
-          delay: 0.2,
-        });
-      }
-      if (thumbsRef.current) {
-        const thumbs = Array.from(thumbsRef.current!.children);
-        gsap.set(thumbs, { x: -20, opacity: 0 });
-        gsap.to(thumbs, {
-          x: 0,
-          opacity: 1,
-          duration: 0.5,
-          ease: "power3.out",
-          stagger: 0.08,
-          delay: 0.4,
-        });
-      }
-    });
-
-    return () => ctx.revert();
-  }, []);
 
   const handleThumbClick = (i: number) => {
     setActive(i);
-    if (mainRef.current) {
-      const img = mainRef.current.querySelector("img");
-      if (img) {
-        gsap.fromTo(img, { scale: 1.05, opacity: 0.6 }, { scale: 1, opacity: 1, duration: 0.5, ease: "power2.out" });
-      }
-    }
   };
 
   return (
-    <div className="grid gap-4 md:grid-cols-[80px_1fr]">
-      <div ref={thumbsRef} className="order-2 flex gap-3 overflow-x-auto md:order-1 md:flex-col">
-        {images.map((src, i) => (
-          <button
-            key={src}
-            onClick={() => handleThumbClick(i)}
-            className={`relative aspect-square w-20 shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-300 ${
-              i === active
-                ? "border-primary shadow-lg shadow-primary/20"
-                : "border-border hover:border-primary/40 opacity-60 hover:opacity-100"
-            }`}
-          >
-            <Image src={src} alt="" fill sizes="80px" className="object-cover" />
-          </button>
-        ))}
-      </div>
-      <div ref={mainRef} className="group relative order-1 aspect-[4/5] overflow-hidden rounded-2xl bg-muted shadow-xl shadow-black/20 md:order-2">
+    <div className="flex flex-col gap-4">
+      <div className="relative aspect-square overflow-hidden border-2 border-border bg-white shadow-sm">
         <Image
           src={images[active]}
           alt={alt}
           fill
           priority
-          sizes="(min-width: 768px) 60vw, 100vw"
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-contain p-4"
         />
 
-        {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
-
         {/* Image counter */}
-        <div className="absolute bottom-4 left-4 rounded-full bg-background/80 px-3 py-1 text-xs backdrop-blur-md border border-border/50">
+        <div className="absolute bottom-3 left-3 bg-[#1565C0] text-white px-3 py-1.5 text-xs font-bold shadow-sm">
           {active + 1} / {images.length}
         </div>
 
@@ -93,24 +33,37 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
           <>
             <button
               onClick={() => handleThumbClick(active > 0 ? active - 1 : images.length - 1)}
-              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2.5 backdrop-blur-md border border-border/50 transition-all duration-200 hover:bg-background hover:scale-110 hover:shadow-lg opacity-0 group-hover:opacity-100"
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white border-2 border-border p-2 hover:bg-[#E3F2FD] hover:border-[#1565C0] transition-all"
               aria-label="Previous image"
             >
-              <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+              <ChevronLeft className="size-4 text-[#1565C0]" />
             </button>
             <button
               onClick={() => handleThumbClick(active < images.length - 1 ? active + 1 : 0)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2.5 backdrop-blur-md border border-border/50 transition-all duration-200 hover:bg-background hover:scale-110 hover:shadow-lg opacity-0 group-hover:opacity-100"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white border-2 border-border p-2 hover:bg-[#E3F2FD] hover:border-[#1565C0] transition-all"
               aria-label="Next image"
             >
-              <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+              <ChevronRight className="size-4 text-[#1565C0]" />
             </button>
           </>
         )}
+      </div>
+
+      {/* Thumbnails */}
+      <div className="flex gap-3 overflow-x-auto">
+        {images.map((src, i) => (
+          <button
+            key={src}
+            onClick={() => handleThumbClick(i)}
+            className={`relative aspect-square w-20 shrink-0 overflow-hidden border-2 transition-all ${
+              i === active
+                ? "border-[#1565C0] shadow-sm"
+                : "border-border hover:border-[#1565C0]/50 opacity-60 hover:opacity-100"
+            }`}
+          >
+            <Image src={src} alt="" fill sizes="80px" className="object-cover" />
+          </button>
+        ))}
       </div>
     </div>
   );

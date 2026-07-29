@@ -1,72 +1,54 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Check } from "lucide-react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { Check, Mail, Gift } from "lucide-react";
 
 export function Newsletter() {
   const [email, setEmail] = useState("");
   const [ok, setOk] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    gsap.set(el, { y: 30, opacity: 0, scale: 0.98 });
-    gsap.to(el, {
-      y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "power3.out",
-      scrollTrigger: { trigger: el, start: "top 85%", once: true },
-    });
-  }, []);
 
   return (
-    <section className="container-x py-16 md:py-24">
-      <div
-        ref={ref}
-        className="relative mx-auto max-w-2xl overflow-hidden rounded-3xl border border-border/60 bg-card/40 p-8 text-center backdrop-blur-sm md:p-12 lg:p-14"
-      >
-        <div className="absolute -right-16 -top-16 size-48 rounded-full bg-primary/8 blur-[80px]" />
-        <div className="absolute -bottom-16 -left-16 size-48 rounded-full bg-accent/6 blur-[80px]" />
-
-        <div className="relative z-10">
-          <div className="mb-2 text-[11px] uppercase tracking-[0.25em] text-muted-foreground">The Journal</div>
-          <h2 className="font-display text-2xl tracking-tight md:text-3xl lg:text-4xl">Early access, quiet drops.</h2>
-          <p className="mt-3 text-sm text-muted-foreground">
-            Once a month. No noise. Reserve releases and workshop stories.
-          </p>
+    <section className="bg-gradient-to-r from-[#1565C0] to-[#0D47A1] border-t-4 border-[#FFC107]">
+      <div className="container-x py-12">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="text-center md:text-left">
+            <div className="flex items-center gap-4 justify-center md:justify-start">
+              <div className="bg-[#FFC107] text-[#1565C0] rounded-full p-3">
+                <Mail className="size-8" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black text-white">Subscribe & Save!</h3>
+                <p className="text-sm text-white/80">Get exclusive deals, new arrivals & <span className="text-[#FFC107] font-bold">10% off</span> your first order!</p>
+              </div>
+            </div>
+          </div>
           <form
-            className="mt-6 flex flex-col gap-2 sm:flex-row"
-            onSubmit={(e) => { e.preventDefault(); setOk(true); setEmail(""); }}
+            className="flex w-full max-w-lg gap-2"
+            onSubmit={(e) => { e.preventDefault(); if (email) { setOk(true); setEmail(""); } }}
           >
-            <Input
+            <input
               type="email"
               required
-              placeholder="you@domain.com"
+              placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="h-12 flex-1"
+              className="h-13 flex-1 px-4 text-sm border-2 border-white/30 bg-white/10 text-white placeholder:text-white/60 focus:outline-none focus:border-[#FFC107] focus:bg-white/20 backdrop-blur"
             />
-            <Button type="submit" size="lg" className="px-8">
-              Subscribe
-            </Button>
+            <button
+              type="submit"
+              className="h-13 px-8 bg-[#F57C00] hover:bg-[#E65100] text-white font-bold text-sm border-b-2 border-[#E65100] transition-all uppercase tracking-wide whitespace-nowrap flex items-center gap-2"
+            >
+              <Gift className="size-4" /> Subscribe
+            </button>
           </form>
-          {ok && (
-            <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-success">
-              <Check className="size-3.5" /> Thanks — check your inbox.
-            </div>
-          )}
-          <p className="mt-3 text-[11px] text-muted-foreground/60">
-            No spam. Unsubscribe anytime.
-          </p>
         </div>
+        {ok && (
+          <div className="mt-6 flex items-center justify-center gap-2 text-base text-[#FFC107] font-bold">
+            <Check className="size-5" /> Thanks for subscribing! Check your inbox for your 10% discount code.
+          </div>
+        )}
       </div>
     </section>
   );

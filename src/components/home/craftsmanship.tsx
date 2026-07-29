@@ -1,75 +1,77 @@
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Star, Truck, Shield, Headphones } from "lucide-react";
 
 const steps = [
   {
     num: "01",
-    title: "Small-Batch Sourcing",
-    desc: "Components sourced from certified European artisan suppliers, tested for purity.",
+    title: "Premium Sourcing",
+    desc: "Products sourced from certified European suppliers, tested for purity and quality.",
+    color: "#1565C0",
+    bg: "#E3F2FD",
   },
   {
     num: "02",
-    title: "Precision Engineering",
-    desc: "CNC-milled to 0.01mm tolerances with medical-grade ceramic heating elements.",
+    title: "Quality Control",
+    desc: "Every product undergoes rigorous testing to ensure consistent performance and safety.",
+    color: "#2E7D32",
+    bg: "#E8F5E9",
   },
   {
     num: "03",
-    title: "Rigorous Testing",
-    desc: "500-cycle stress testing, ±0.5°C accuracy check, hand assembly in Denmark.",
+    title: "Secure Packaging",
+    desc: "Discreet, secure packaging with tracking on every order. Fast EU-wide delivery.",
+    color: "#F57C00",
+    bg: "#FFF3E0",
   },
   {
     num: "04",
-    title: "Lifetime Care",
-    desc: "Up to 5-year warranty, express repairs, sustainable module recycling.",
+    title: "24/7 Support",
+    desc: "Round-the-clock customer service. We're here to help with any questions.",
+    color: "#D32F2F",
+    bg: "#FFEBEE",
   },
 ];
 
 const highlights = [
-  "100% Medical-Grade Ceramic Chambers",
-  "Zero Synthetic Sweeteners or Diacetyl",
-  "Carbon-Neutral EU Shipping",
-  "30-Day Risk-Free In-Home Trial",
+  { icon: Star, text: "100% Authentic Products Guaranteed", color: "#FFC107" },
+  { icon: Truck, text: "Free Shipping on Orders Over $75", color: "#1565C0" },
+  { icon: Shield, text: "30-Day Money-Back Guarantee", color: "#2E7D32" },
+  { icon: Headphones, text: "24/7 Customer Support", color: "#F57C00" },
 ];
 
 export function Craftsmanship() {
   return (
-    <section className="border-t border-border bg-card/30 py-16 md:py-24">
+    <section className="bg-white border-b-2 border-border py-8">
       <div className="container-x">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
-          <div className="craft-left">
-            <div className="mb-3 text-[11px] uppercase tracking-[0.25em] text-primary">
-              The Vapor Noir Difference
-            </div>
-            <h2 className="font-display text-3xl tracking-tight md:text-5xl">
-              Engineered with{" "}
-              <span className="italic text-primary">relentless precision.</span>
+        <div className="section-title-bar">🏆 Why Shop With Us</div>
+        <div className="grid gap-8 lg:grid-cols-2">
+          <div className="bg-[#E3F2FD] border-2 border-[#1565C0]/20 p-8">
+            <h2 className="text-[28px] font-black text-[#1565C0] leading-tight mb-2">
+              Your Trusted Vape Store
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
-              We reject cheap mass manufacturing. From aerospace aluminum
-              chassis to 90-day oak-aged extracts — built for connoisseurs
-              who demand uncompromising quality.
+            <p className="text-sm text-foreground/70 mb-6">
+              We are committed to providing the best products at the best prices.
+              All items are sourced directly from manufacturers to ensure authenticity.
             </p>
-
-            <div className="mt-8 space-y-2.5">
+            <div className="space-y-4">
               {highlights.map((h, i) => (
-                <div key={i} className="craft-highlight flex items-center gap-3 text-sm font-medium">
-                  <CheckCircle2 className="size-4 shrink-0 text-primary" />
-                  <span>{h}</span>
+                <div key={i} className="flex items-center gap-3 bg-white p-3 border-l-4 shadow-sm" style={{ borderLeftColor: h.color }}>
+                  <h.icon className="size-5 shrink-0" style={{ color: h.color }} />
+                  <span className="text-sm font-bold">{h.text}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 content-start">
             {steps.map((s) => (
               <div
                 key={s.num}
-                className="craft-card group rounded-2xl border border-border/60 bg-background/60 p-5 transition-all duration-300 hover:border-primary/30 hover:bg-background/80"
+                className="border-2 border-border bg-white p-5 card-hover"
+                style={{ borderTop: `3px solid ${s.color}` }}
               >
-                <div className="text-3xl font-light text-primary/25 font-display transition-colors duration-300 group-hover:text-primary/50">
-                  {s.num}
-                </div>
-                <h3 className="mt-2.5 font-display text-lg">{s.title}</h3>
-                <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{s.desc}</p>
+                <div className="text-3xl font-black opacity-20" style={{ color: s.color }}>{s.num}</div>
+                <h3 className="mt-1 font-bold text-foreground">{s.title}</h3>
+                <p className="mt-1 text-xs text-muted-foreground">{s.desc}</p>
               </div>
             ))}
           </div>

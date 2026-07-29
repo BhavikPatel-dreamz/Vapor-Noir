@@ -1,68 +1,53 @@
 "use client";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
-import { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, ThumbsUp } from "lucide-react";
 import { testimonials } from "@/data/testimonials";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { useState, useEffect } from "react";
 
 export function Testimonials() {
-  const ref = useRef<HTMLDivElement>(null);
+  const [idx, setIdx] = useState(0);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    gsap.set(el, { y: 30, opacity: 0 });
-    gsap.to(el, {
-      y: 0, opacity: 1, duration: 0.8, ease: "power3.out",
-      scrollTrigger: { trigger: el, start: "top 85%", once: true },
-    });
+    const t = setInterval(() => setIdx((p) => (p + 1) % testimonials.length), 5000);
+    return () => clearInterval(t);
   }, []);
 
+  const t = testimonials[idx];
+  if (!t) return null;
+
   return (
-    <section ref={ref} className="border-y border-border bg-muted/10 py-16 md:py-24">
+    <section className="bg-[#FFF3E0] border-b-2 border-border py-8">
       <div className="container-x">
-        <div className="text-center">
-          <div className="mb-2 text-[11px] uppercase tracking-[0.25em] text-muted-foreground">Reviews</div>
-          <h2 className="font-display text-3xl tracking-tight md:text-4xl lg:text-5xl">What people say</h2>
-        </div>
-        <div className="mx-auto mt-10 max-w-3xl md:mt-14">
-          <Swiper
-            modules={[Autoplay, Pagination]}
-            autoplay={{ delay: 5500, disableOnInteraction: false }}
-            pagination={{ clickable: true }}
-            loop
-          >
-            {testimonials.map((t) => (
-              <SwiperSlide key={t.id}>
-                <div className="px-4 pb-16 text-center">
-                  <Quote className="mx-auto mb-5 size-8 text-primary/30" />
-                  <div className="mb-4 inline-flex gap-0.5">
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star key={i} className="size-3.5 fill-primary text-primary" />
-                    ))}
-                  </div>
-                  <blockquote className="font-display text-xl leading-snug tracking-tight md:text-2xl lg:text-3xl">
-                    &ldquo;{t.quote}&rdquo;
-                  </blockquote>
-                  <div className="mt-6 text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground">{t.author}</span>
-                    <span className="mx-1.5 text-border">·</span>
-                    <span className="text-primary">{t.role}</span>
-                  </div>
-                </div>
-              </SwiperSlide>
+        <div className="section-title-bar">⭐ What Our Customers Say</div>
+        <div className="mx-auto max-w-3xl">
+          <div className="border-2 border-[#F57C00]/30 bg-white p-8 md:p-10 text-center shadow-md">
+            <Quote className="mx-auto mb-4 size-10 text-[#F57C00]/20" />
+            <div className="mb-4 inline-flex gap-1">
+              {Array.from({ length: t.rating }).map((_, i) => (
+                <Star key={i} className="size-6 fill-[#FFC107] text-[#FFC107]" />
+              ))}
+            </div>
+            <blockquote className="text-xl leading-relaxed font-normal text-foreground italic mb-6">
+              &ldquo;{t.quote}&rdquo;
+            </blockquote>
+            <div className="text-sm text-muted-foreground">
+              <span className="font-bold text-foreground text-base">{t.author}</span>
+              <span className="mx-2 text-border">|</span>
+              <span className="text-[#1565C0] font-bold">{t.role}</span>
+            </div>
+            <div className="mt-6 flex items-center justify-center gap-1 text-xs text-[#2E7D32] font-bold">
+              <ThumbsUp className="size-3.5" /> Verified Purchase
+            </div>
+          </div>
+          <div className="flex justify-center gap-2 mt-4">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setIdx(i)}
+                className={`w-3 h-3 rounded-full transition-all ${i === idx ? "bg-[#F57C00] scale-125" : "bg-[#F57C00]/30 hover:bg-[#F57C00]/60"}`}
+              />
             ))}
-          </Swiper>
+          </div>
         </div>
       </div>
     </section>

@@ -11,7 +11,7 @@ export function MobileFilterToggle({ children }: { children: ReactNode }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-xs uppercase tracking-widest text-muted-foreground hover:bg-muted lg:hidden"
+        className="flex items-center gap-2 border border-border px-4 py-2 text-xs font-bold text-muted-foreground hover:bg-muted lg:hidden"
       >
         <SlidersHorizontal className="size-4" />
         Filters
@@ -20,10 +20,10 @@ export function MobileFilterToggle({ children }: { children: ReactNode }) {
       {open && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/50" onClick={() => setOpen(false)} />
-          <div className="absolute inset-y-0 left-0 w-full max-w-md overflow-y-auto bg-background p-6 shadow-xl">
-            <div className="mb-4 flex items-center justify-between">
-              <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Filters</div>
-              <button type="button" onClick={() => setOpen(false)} className="rounded-md p-1 hover:bg-muted">
+          <div className="absolute inset-y-0 left-0 w-full max-w-md overflow-y-auto bg-white p-6 shadow-xl">
+            <div className="mb-4 flex items-center justify-between border-b border-border pb-4">
+              <div className="text-xs font-bold uppercase text-muted-foreground">Filters</div>
+              <button type="button" onClick={() => setOpen(false)} className="p-1 hover:bg-muted">
                 <X className="size-5" />
               </button>
             </div>

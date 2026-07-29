@@ -81,16 +81,16 @@ export function PriceRangeSlider({
   }, []);
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
-        <span>${lo}</span>
-        <span>${hi}</span>
+    <div className="space-y-3 px-1">
+      <div className="flex items-center justify-between text-xs font-bold">
+        <span className="text-[#1565C0]">${lo}</span>
+        <span className="text-[#D32F2F]">${hi}</span>
       </div>
 
-      <div ref={trackRef} className="relative h-5 select-none touch-none">
-        <div className="absolute top-1/2 left-0 right-0 h-1 -translate-y-1/2 rounded-full bg-border" />
+      <div ref={trackRef} className="relative h-6 select-none touch-none">
+        <div className="absolute top-1/2 left-0 right-0 h-1.5 -translate-y-1/2 bg-[#E3F2FD]" />
         <div
-          className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-primary"
+          className="absolute top-1/2 h-1.5 -translate-y-1/2 bg-gradient-to-r from-[#1565C0] to-[#1976D2]"
           style={{ left: `${pct(lo)}%`, right: `${100 - pct(hi)}%` }}
         />
 
@@ -98,14 +98,14 @@ export function PriceRangeSlider({
         <input type="hidden" name="maxPrice" value={hi < max ? hi : ""} />
 
         <div
-          className="absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full border-2 border-primary bg-background shadow-sm active:cursor-grabbing"
+          className="absolute top-1/2 size-5 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full border-3 border-[#1565C0] bg-white shadow-md active:cursor-grabbing hover:border-[#0D47A1]"
           style={{ left: `${pct(lo)}%` }}
           onMouseDown={() => (dragging.current = "lo")}
           onTouchStart={onTouchStart("lo")}
           onTouchEnd={onTouchEnd}
         />
         <div
-          className="absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full border-2 border-primary bg-background shadow-sm active:cursor-grabbing"
+          className="absolute top-1/2 size-5 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full border-3 border-[#D32F2F] bg-white shadow-md active:cursor-grabbing hover:border-[#B71C1C]"
           style={{ left: `${pct(hi)}%` }}
           onMouseDown={() => (dragging.current = "hi")}
           onTouchStart={onTouchStart("hi")}
@@ -114,8 +114,8 @@ export function PriceRangeSlider({
       </div>
 
       <div className="flex items-center justify-between text-[10px] text-muted-foreground">
-        <span>${min}</span>
-        <span>${max}</span>
+        <span className="font-bold">${min}</span>
+        <span className="font-bold">${max}</span>
       </div>
     </div>
   );

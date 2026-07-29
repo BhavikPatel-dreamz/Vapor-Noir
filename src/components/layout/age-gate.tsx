@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Shield, AlertTriangle } from "lucide-react";
 
 const KEY = "vn-age-verified";
 
@@ -20,20 +21,26 @@ export function AgeGate() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-xl"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80"
         >
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="mx-4 max-w-md rounded-xl border border-border bg-card p-8 text-center"
+            className="mx-4 max-w-md border-4 border-[#FFC107] bg-white p-8 text-center shadow-xl"
           >
-            <div className="mx-auto mb-4 font-display text-3xl tracking-tight">Vapor Noir</div>
-            <p className="text-sm text-muted-foreground">
-              This site contains nicotine products intended for adults 21+ only. By entering you
+            <div className="bg-[#1565C0] text-white font-black text-2xl px-4 py-3 inline-block mb-4">
+              VAPOR
+            </div>
+            <div className="flex items-center justify-center gap-2 text-[#D32F2F] mb-4">
+              <AlertTriangle className="size-5" />
+              <span className="font-bold text-sm">AGE VERIFICATION REQUIRED</span>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              This site contains nicotine products intended for adults <strong>21+</strong> only. By entering you
               confirm you are of legal age in your jurisdiction.
             </p>
             <div className="mt-6 flex gap-3">
-              <Button className="flex-1" onClick={confirm}>I am 21 or older</Button>
+              <Button className="flex-1" onClick={confirm}>Yes, I am 21+</Button>
               <Button
                 variant="outline"
                 className="flex-1"
@@ -42,9 +49,9 @@ export function AgeGate() {
                 Exit
               </Button>
             </div>
-            <p className="mt-4 text-[10px] uppercase tracking-widest text-muted-foreground">
-              Warning: nicotine is an addictive chemical.
-            </p>
+            <div className="mt-4 flex items-center justify-center gap-1.5 text-[10px] uppercase tracking-wider text-[#666] font-bold">
+              <Shield className="size-3 text-[#F57C00]" /> Warning: nicotine is an addictive chemical.
+            </div>
           </motion.div>
         </motion.div>
       )}

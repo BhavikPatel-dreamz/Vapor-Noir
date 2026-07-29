@@ -1,69 +1,51 @@
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight, Flame, Sparkles } from "lucide-react";
+import { ArrowRight, Gift, ShoppingBag } from "lucide-react";
 
 export function SpecialPromos() {
   return (
-    <section className="container-x py-16 md:py-24">
-      <div className="grid gap-5 md:grid-cols-2">
-        {/* Banner 1: Limited Reserve */}
-        <div className="promo-card group relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-card via-background to-primary/5">
-          <div className="absolute right-0 top-0 size-80 rounded-full bg-primary/8 blur-[100px] transition-all duration-700 group-hover:bg-primary/12" />
-          <div className="relative z-10 flex flex-col justify-between p-8 md:p-10 min-h-[320px]">
-            <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-primary">
-                <Sparkles className="size-3" /> Limited Reserve
-              </div>
-              <h3 className="font-display text-3xl leading-tight tracking-tight md:text-4xl">
-                Atelier Oak-Aged
-                <br />
-                <span className="text-primary">2026 Vintage</span>
-              </h3>
-              <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                Aged 120 days in French oak. Hand-numbered, limited to 500 units.
-              </p>
+    <section className="bg-[#E3F2FD] border-b-2 border-border py-8">
+      <div className="container-x">
+        <div className="section-title-bar-orange">🎁 Special Offers & Deals</div>
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Promo 1 */}
+          <div className="border-b-4 border-[#D32F2F] bg-gradient-to-r from-[#D32F2F] to-[#B71C1C] p-8 text-white shadow-md">
+            <div className="inline-flex items-center gap-1.5 bg-[#FFC107] text-[#333] font-bold text-xs px-3 py-1.5 mb-4 rounded-sm">
+              <Gift className="size-3.5" /> LIMITED EDITION
             </div>
-            <div className="mt-6 flex items-center justify-between">
-              <Link
-                href="/shop?category=e-liquids"
-                className="group/btn inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30"
-              >
-                Explore Reserve
-                <ArrowRight className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
-              </Link>
-              <span className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground">
-                248 / 500 left
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Banner 2: Bundle */}
-        <div className="promo-card group relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-card via-muted/20 to-background">
-          <div className="absolute right-0 bottom-0 size-64 rounded-full bg-accent/8 blur-[80px] transition-all duration-700 group-hover:bg-accent/12" />
-          <div className="relative z-10 flex flex-col justify-between p-8 md:p-10 min-h-[320px]">
-            <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
-                <Flame className="size-3 text-amber-500" /> Bundle & Save
-              </div>
-              <h3 className="font-display text-3xl leading-tight tracking-tight md:text-4xl">
-                The Connoisseur
-                <br />
-                Starter Suite
-              </h3>
-              <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                Obsidian Pro + 2 Reserve Liquids + Italian leather case. Complete set.
-              </p>
-            </div>
-            <div className="mt-6 flex items-center justify-between">
+            <h3 className="text-3xl font-black mb-1">Weekend Flash Sale</h3>
+            <h4 className="text-xl font-bold text-[#FFC107] mb-3">Up to 40% Off Everything!</h4>
+            <p className="text-sm text-white/80 mb-6 max-w-sm">
+              Premium disposables, pod kits, and e-liquids at unbeatable prices. Stock up and save big!
+            </p>
+            <div className="flex items-center justify-between">
               <Link
                 href="/shop"
-                className="group/btn inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-6 py-3 text-sm font-medium backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:bg-card"
+                className="inline-flex items-center gap-2 bg-white text-[#D32F2F] font-bold px-6 py-3 text-sm hover:bg-[#FFC107] hover:text-[#333] transition-all rounded-sm"
               >
-                Claim offer
-                <ArrowRight className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
+                <ShoppingBag className="size-4" /> Shop Sale
               </Link>
-              <span className="text-sm font-semibold text-primary">Save $95</span>
+              <span className="text-sm font-bold text-[#FFC107]">Ends Soon!</span>
+            </div>
+          </div>
+
+          {/* Promo 2 */}
+          <div className="border-b-4 border-[#2E7D32] bg-gradient-to-r from-[#2E7D32] to-[#1B5E20] p-8 text-white shadow-md">
+            <div className="inline-flex items-center gap-1.5 bg-[#FFC107] text-[#333] font-bold text-xs px-3 py-1.5 mb-4 rounded-sm">
+              <Gift className="size-3.5" /> BUNDLE & SAVE
+            </div>
+            <h3 className="text-3xl font-black mb-1">Premium Starter Kit</h3>
+            <h4 className="text-xl font-bold text-[#FFC107] mb-3">Complete Setup — Save $95!</h4>
+            <p className="text-sm text-white/80 mb-6 max-w-sm">
+              Premium device + 2 premium e-liquids + carry case. Everything you need to start your journey.
+            </p>
+            <div className="flex items-center justify-between">
+              <Link
+                href="/shop"
+                className="inline-flex items-center gap-2 bg-white text-[#2E7D32] font-bold px-6 py-3 text-sm hover:bg-[#FFC107] hover:text-[#333] transition-all rounded-sm"
+              >
+                <ShoppingBag className="size-4" /> Claim Offer
+              </Link>
+              <span className="text-sm font-bold text-[#FFC107]">Save $95</span>
             </div>
           </div>
         </div>
