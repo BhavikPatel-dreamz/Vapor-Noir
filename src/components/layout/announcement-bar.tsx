@@ -1,56 +1,37 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Truck, ShieldCheck, Sparkles, MapPin, Phone, HelpCircle } from "lucide-react";
+import { Phone, Mail, Truck, Heart, User, LogIn } from "lucide-react";
 import Link from "next/link";
 
-const announcements = [
-  { icon: Truck, text: "Complimentary Express Shipping on Orders Over $75" },
-  { icon: ShieldCheck, text: "Complimentary 3-Year Warranty & 30-Day In-Home Trial" },
-  { icon: Sparkles, text: "New Release: Atelier Oak-Aged Reserve 2026 Batch Now Live" },
-];
-
 export function AnnouncementBar() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % announcements.length);
-    }, 4500);
-    return () => clearInterval(timer);
-  }, []);
-
-  const CurrentIcon = announcements[index].icon;
-
   return (
-    <div className="border-b border-border/80 bg-black/40 text-xs">
+    <div className="bg-[#D32F2F] text-white text-[12px]">
       <div className="container-x flex h-9 items-center justify-between">
-        {/* Left: Quick store info */}
-        <div className="hidden items-center gap-5 text-muted-foreground md:flex text-[11px]">
-          <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer">
-            <MapPin className="size-3 text-primary" /> Store Locator (Copenhagen & London)
+        <div className="flex items-center gap-4">
+          <span className="flex items-center gap-1.5">
+            <Phone className="size-3" /> +45 80 82 01 90
           </span>
-          <span className="h-3 w-px bg-border" />
-          <span className="flex items-center gap-1.5 hover:text-foreground transition-colors">
-            <Phone className="size-3 text-primary" /> +45 80 82 01 90 (24/7 Support)
+          <span className="hidden sm:flex items-center gap-1.5">
+            <Mail className="size-3" /> support@vapornoir.com
+          </span>
+          <span className="hidden md:flex items-center gap-1.5 text-[#FFC107] font-bold">
+            <Truck className="size-3" /> FREE Shipping Over $75
           </span>
         </div>
-
-        {/* Center: Revolving Ticker */}
-        <div className="mx-auto md:mx-0 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-foreground/90">
-          <CurrentIcon className="size-3.5 text-primary shrink-0" />
-          <span key={index} className="animate-slide-up">{announcements[index].text}</span>
-        </div>
-
-        {/* Right: Currency / Region / Support links */}
-        <div className="hidden items-center gap-4 text-[11px] text-muted-foreground md:flex">
-          <Link href="/contact" className="flex items-center gap-1 hover:text-primary transition-colors">
-            <HelpCircle className="size-3" /> Help & Support
+        <div className="flex items-center gap-3">
+          <span className="hidden sm:inline text-[#FFC107] font-bold">🔥 Today&apos;s Deals</span>
+          <span className="text-white/40 hidden sm:inline">|</span>
+          <Link href="/wishlist" className="flex items-center gap-1 hover:text-[#FFC107] transition-colors">
+            <Heart className="size-3" /> Wishlist
           </Link>
-          <span className="h-3 w-px bg-border" />
-          <div className="flex items-center gap-1 font-mono font-medium text-foreground">
-            <span className="size-1.5 rounded-full bg-emerald-500" /> EUR (€) / EN
-          </div>
+          <span className="text-white/40">|</span>
+          <Link href="/contact" className="flex items-center gap-1 hover:text-[#FFC107] transition-colors">
+            <User className="size-3" /> Login
+          </Link>
+          <span className="text-white/40">|</span>
+          <Link href="/contact" className="hover:text-[#FFC107] transition-colors">
+            Register
+          </Link>
         </div>
       </div>
     </div>

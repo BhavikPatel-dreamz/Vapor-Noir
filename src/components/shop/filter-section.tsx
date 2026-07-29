@@ -15,11 +15,11 @@ export function FilterSection({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-t border-border pt-6">
+    <div className="border-t-2 border-border pt-4 pb-2">
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
+        className="flex w-full items-center justify-between text-xs font-bold uppercase tracking-wide text-[#1565C0] hover:text-[#0D47A1] px-3 py-2 bg-[#E3F2FD] transition-colors"
       >
         {title}
         <ChevronRight
@@ -32,7 +32,7 @@ export function FilterSection({
         }`}
       >
         <div className="overflow-hidden">
-          <div className="pt-4">{children}</div>
+          <div className="pt-2 px-3">{children}</div>
         </div>
       </div>
     </div>

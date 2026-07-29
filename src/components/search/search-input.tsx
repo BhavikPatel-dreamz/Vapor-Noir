@@ -3,7 +3,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { Search, X } from "lucide-react";
-import { Input } from "@/components/ui/input";
 
 export function SearchInput({ defaultValue = "" }: { defaultValue?: string }) {
   const router = useRouter();
@@ -38,13 +37,13 @@ export function SearchInput({ defaultValue = "" }: { defaultValue?: string }) {
 
   return (
     <div className="relative">
-      <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
-      <Input
+      <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-[#1565C0]" />
+      <input
         ref={inputRef}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Search products..."
-        className="h-14 rounded-full bg-muted pl-12 pr-12 text-base"
+        className="w-full h-14 border-2 border-[#1565C0] bg-white pl-12 pr-12 text-base text-foreground focus:outline-none focus:border-[#D32F2F] focus:ring-2 focus:ring-[#D32F2F]/20"
       />
       {value && (
         <button
@@ -53,7 +52,7 @@ export function SearchInput({ defaultValue = "" }: { defaultValue?: string }) {
             setValue("");
             inputRef.current?.focus();
           }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-[#D32F2F]"
         >
           <X className="size-5" />
         </button>

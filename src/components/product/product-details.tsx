@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Minus, Plus, ShoppingBag, Heart, Check, Loader2, Zap, ChevronDown, Truck, Shield, RotateCcw, Award } from "lucide-react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Minus, Plus, ShoppingBag, Heart, Check, Loader2, Truck, Shield, RotateCcw, Award, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Rating } from "@/components/ui/rating";
 import { Badge } from "@/components/ui/badge";
@@ -15,10 +13,6 @@ import { useCart } from "@/store/cart-store";
 import { useWishlist } from "@/store/wishlist-store";
 import type { Product } from "@/types/product";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
 export function ProductDetails({ product }: { product: Product }) {
   const [variantId, setVariantId] = useState(product.variants[0].id);
   const [qty, setQty] = useState(1);
@@ -26,33 +20,13 @@ export function ProductDetails({ product }: { product: Product }) {
   const addingVariantId = useCart((s) => s.addingVariantId);
   const wl = useWishlist();
   const router = useRouter();
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const variant = product.variants.find((v) => v.id === variantId) ?? product.variants[0];
   const isAdding = addingVariantId === variant.id;
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const children = Array.from(el.children);
-    gsap.set(children, { y: 30, opacity: 0 });
-    gsap.to(children, {
-      y: 0,
-      opacity: 1,
-      duration: 0.7,
-      ease: "power3.out",
-      stagger: 0.07,
-      delay: 0.3,
-    });
-  }, []);
+  const savings = product.compareAtPrice ? product.compareAtPrice - variant.price : 0;
 
   const onAdd = () => {
     if (!variant.inStock || isAdding) return;
-    const btn = document.querySelector(".add-to-cart-btn");
-    if (btn) {
-      gsap.fromTo(btn, { scale: 1 }, { scale: 1.05, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" });
-    }
     add(
       {
         id: `${product.id}:${variant.id}`,
@@ -89,34 +63,33 @@ export function ProductDetails({ product }: { product: Product }) {
   };
 
   const trustItems = [
-    { icon: Truck, text: "Free shipping over $75" },
-    { icon: Shield, text: "3-year warranty" },
-    { icon: RotateCcw, text: "30-day returns" },
-    { icon: Award, text: "Authentic guarantee" },
+    { icon: Truck, text: "Free shipping over $75", color: "#1565C0", bg: "#E3F2FD" },
+    { icon: Shield, text: "3-year warranty", color: "#2E7D32", bg: "#E8F5E9" },
+    { icon: RotateCcw, text: "30-day returns", color: "#F57C00", bg: "#FFF3E0" },
+    { icon: Award, text: "Authentic guarantee", color: "#D32F2F", bg: "#FFEBEE" },
   ];
 
   return (
-    <div ref={containerRef} className="flex flex-col gap-5">
-      {/* Breadcrumb-style category */}
+    <div className="flex flex-col gap-5">
+      {/* Badges + Title */}
       <div>
-        <div className="flex flex-wrap items-center gap-2">
-          {product.new && <Badge variant="accent">New</Badge>}
-          {product.bestseller && <Badge>Bestseller</Badge>}
+        <div className="flex flex-wrap items-center gap-2 mb-2">
+          {product.new && <Badge variant="new">New</Badge>}
+          {product.bestseller && <Badge variant="gold">Best Seller</Badge>}
+          {product.compareAtPrice && <Badge variant="sale">Sale</Badge>}
         </div>
-        <h1 className="mt-3 font-display text-3xl leading-[1.08] tracking-tight md:text-4xl lg:text-5xl">
+        <h1 className="text-[30px] font-black text-[#1565C0] leading-tight">
           {product.name}
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground md:text-base">{product.tagline}</p>
-        <div className="mt-3 flex items-center gap-3">
+        <p className="mt-1 text-sm text-muted-foreground">{product.tagline}</p>
+        <div className="mt-2">
           <Rating value={product.rating} count={product.reviewCount} />
-          <span className="text-xs text-muted-foreground">|</span>
-          <span className="text-xs text-muted-foreground">{product.reviewCount} reviews</span>
         </div>
       </div>
 
       {/* Price */}
       <div className="flex items-baseline gap-3 flex-wrap">
-        <div className={cn("text-3xl font-medium md:text-4xl", product.compareAtPrice && "text-accent")}>
+        <div className={cn("text-3xl font-black", product.compareAtPrice ? "text-[#D32F2F]" : "text-foreground")}>
           {formatPrice(variant.price, product.currency)}
         </div>
         {product.compareAtPrice && (
@@ -127,6 +100,9 @@ export function ProductDetails({ product }: { product: Product }) {
             <Badge variant="sale">
               Save {Math.round(((product.compareAtPrice - variant.price) / product.compareAtPrice) * 100)}%
             </Badge>
+            {savings > 0 && (
+              <Badge variant="gold">Save ${savings}</Badge>
+            )}
           </>
         )}
       </div>
@@ -138,7 +114,7 @@ export function ProductDetails({ product }: { product: Product }) {
 
       {/* Variants */}
       <div>
-        <div className="mb-3 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+        <div className="mb-2 text-xs font-bold uppercase tracking-wide text-[#1565C0]">
           {product.category === "e-liquids" ? "Strength" : "Finish"}
         </div>
         <div className="flex flex-wrap gap-2">
@@ -148,10 +124,10 @@ export function ProductDetails({ product }: { product: Product }) {
               disabled={!v.inStock}
               onClick={() => setVariantId(v.id)}
               className={cn(
-                "rounded-lg border-2 px-5 py-2.5 text-sm font-medium transition-all duration-300",
+                "border-2 px-5 py-2.5 text-sm font-bold transition-all duration-200 rounded-sm",
                 v.id === variantId
-                  ? "border-primary bg-primary-light text-foreground shadow-md shadow-primary/10 ring-1 ring-primary/30"
-                  : "border-border hover:border-primary/40 hover:bg-primary-light/50",
+                  ? "border-[#1565C0] bg-[#1565C0] text-white"
+                  : "border-border hover:border-[#1565C0] hover:text-[#1565C0]",
                 !v.inStock && "opacity-30 line-through cursor-not-allowed",
               )}
             >
@@ -164,69 +140,66 @@ export function ProductDetails({ product }: { product: Product }) {
       {/* Quantity + Actions */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-3">
-          <div className="flex items-center rounded-lg border border-border overflow-hidden">
-            <button aria-label="Decrease" onClick={() => setQty(Math.max(1, qty - 1))} className="p-3 transition-all duration-200 hover:bg-muted hover:text-primary">
-              <Minus className="size-4" />
+          <div className="flex items-center border-2 border-border">
+            <button aria-label="Decrease" onClick={() => setQty(Math.max(1, qty - 1))} className="p-3 hover:bg-[#E3F2FD] transition-colors">
+              <Minus className="size-4 text-[#1565C0]" />
             </button>
-            <div className="w-12 text-center text-sm font-medium tabular-nums border-x border-border">{qty}</div>
-            <button aria-label="Increase" onClick={() => setQty(qty + 1)} className="p-3 transition-all duration-200 hover:bg-muted hover:text-primary">
-              <Plus className="size-4" />
+            <div className="w-12 text-center text-sm font-bold tabular-nums border-x-2 border-border">{qty}</div>
+            <button aria-label="Increase" onClick={() => setQty(qty + 1)} className="p-3 hover:bg-[#E3F2FD] transition-colors">
+              <Plus className="size-4 text-[#1565C0]" />
             </button>
           </div>
 
           <div className="flex flex-1 gap-2">
             <Button
               size="lg"
-              className="add-to-cart-btn flex-1 h-12 text-sm font-medium uppercase tracking-widest"
+              className="flex-1 h-12 text-sm font-bold uppercase"
               onClick={onAdd}
               disabled={!variant.inStock || isAdding}
             >
               {isAdding ? <Loader2 className="size-5 animate-spin" /> : <ShoppingBag />}
-              {isAdding ? "Adding..." : variant.inStock ? "Add to cart" : "Sold out"}
+              {isAdding ? "Adding..." : variant.inStock ? "Add to Cart" : "Sold Out"}
             </Button>
             <Button
-              size="lg"
-              variant="outline"
-              className="h-12 px-5"
+              variant="secondary"
+              className="h-12 px-4 text-sm font-bold uppercase"
               onClick={onBuyNow}
               disabled={!variant.inStock || isAdding}
             >
-              <Zap className="size-4" />
-              Buy now
+              Buy Now
             </Button>
             <Button
-              size="lg"
               variant="outline"
               className="h-12 w-12 p-0"
               aria-label={wl.ids.includes(product.id) ? "Remove from wishlist" : "Add to wishlist"}
               onClick={() => wl.toggle(product.id)}
             >
-              <Heart className={cn("size-5", wl.ids.includes(product.id) && "fill-accent text-accent")} />
+              <Heart className={cn("size-5", wl.ids.includes(product.id) && "fill-[#D32F2F] text-[#D32F2F]")} />
             </Button>
           </div>
         </div>
       </div>
 
       {/* Trust badges */}
-      <div className="grid grid-cols-2 gap-2 rounded-xl border border-border/60 bg-card/40 p-4 shadow-sm">
-        {trustItems.map(({ icon: Icon, text }) => (
-          <div key={text} className="flex items-center gap-2.5">
-            <div className="flex size-8 items-center justify-center rounded-lg bg-primary-light">
-              <Icon className="size-4 text-primary" />
+      <div className="grid grid-cols-2 gap-3">
+        {trustItems.map(({ icon: Icon, text, color, bg }) => (
+          <div key={text} className="flex items-center gap-2.5 p-3" style={{ backgroundColor: bg }}>
+            <div className="flex size-9 items-center justify-center" style={{ backgroundColor: color, color: "white" }}>
+              <Icon className="size-4" />
             </div>
-            <span className="text-xs text-muted-foreground font-medium">{text}</span>
+            <span className="text-xs font-bold" style={{ color }}>{text}</span>
           </div>
         ))}
       </div>
 
       {/* Features */}
       <div>
-        <div className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">Key Features</div>
-        <ul className="grid gap-2.5 sm:grid-cols-2">
+        <div className="mb-2 text-xs font-bold uppercase tracking-wide text-[#1565C0]">Key Features</div>
+        <ul className="grid gap-2 sm:grid-cols-2">
           {product.features.map((f) => (
-            <li key={f} className="flex items-start gap-2.5 text-sm text-foreground/85">
-              <div className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                <Check className="size-3 text-primary" />
+            <li key={f} className="flex items-start gap-2 text-sm text-foreground/85">
+              <div className="mt-0.5 flex size-5 shrink-0 items-center justify-center bg-[#E8F5E9]">
+                <Check className="size-3 text-[#2E7D32]" />
               </div>
               {f}
             </li>
@@ -238,18 +211,18 @@ export function ProductDetails({ product }: { product: Product }) {
 
       {/* Specifications */}
       <div>
-        <div className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">Specifications</div>
-        <div className="rounded-xl border border-border overflow-hidden">
+        <div className="mb-2 text-xs font-bold uppercase tracking-wide text-[#1565C0]">Specifications</div>
+        <div className="border-2 border-border">
           {product.specs.map((s, i) => (
             <div
               key={s.label}
               className={cn(
                 "flex justify-between px-4 py-3 text-sm",
-                i % 2 === 0 ? "bg-card/30" : "bg-transparent",
+                i % 2 === 0 ? "bg-[#E3F2FD]" : "bg-white",
               )}
             >
-              <span className="text-muted-foreground">{s.label}</span>
-              <span className="font-medium">{s.value}</span>
+              <span className="text-muted-foreground font-medium">{s.label}</span>
+              <span className="font-bold text-foreground">{s.value}</span>
             </div>
           ))}
         </div>

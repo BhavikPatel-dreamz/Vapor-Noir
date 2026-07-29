@@ -1,31 +1,33 @@
-import { Award, Leaf, ShieldCheck, Truck } from "lucide-react";
+import { Award, Leaf, ShieldCheck, Truck, Star, Clock } from "lucide-react";
 
 const values = [
-  { icon: Award, title: "Craft-engineered", copy: "Calibrated by hand at our Copenhagen workshop to 0.01mm tolerances." },
-  { icon: Leaf, title: "Small-batch flavors", copy: "E-liquids aged and bottled in numbered runs of 200." },
-  { icon: ShieldCheck, title: "3-year warranty", copy: "Industry-leading coverage on every powered device." },
-  { icon: Truck, title: "Discreet shipping", copy: "Unmarked packaging, tracked delivery. Free over $75." },
+  { icon: Truck, title: "Free Shipping", copy: "Free shipping on all orders over $75. Fast delivery.", color: "#1565C0", bg: "#E3F2FD" },
+  { icon: ShieldCheck, title: "Quality Guarantee", copy: "30-day money-back guarantee. Shop with confidence.", color: "#2E7D32", bg: "#E8F5E9" },
+  { icon: Award, title: "Best Prices", copy: "Price match guarantee. We'll beat any price by 5%.", color: "#F57C00", bg: "#FFF3E0" },
+  { icon: Star, title: "Premium Brands", copy: "Only authentic products from trusted manufacturers.", color: "#D32F2F", bg: "#FFEBEE" },
 ];
 
 export function ValueProps() {
   return (
-    <section className="container-x py-14 md:py-16">
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {values.map((v) => (
-          <div
-            key={v.title}
-            className="vp-card group relative overflow-hidden rounded-xl border border-border/60 bg-card/30 p-5 transition-all duration-400 hover:border-primary/20 hover:bg-card/50"
-          >
-            <div className="absolute -right-4 -top-4 size-24 rounded-full bg-primary/5 transition-all duration-500 group-hover:scale-150 group-hover:bg-primary/10" />
-            <div className="relative">
-              <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-primary/10 transition-colors duration-300 group-hover:bg-primary/15">
-                <v.icon className="size-5 text-primary" />
+    <section className="bg-[#FFF8E1] border-b-2 border-[#FFC107]">
+      <div className="container-x py-6">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {values.map((v) => (
+            <div
+              key={v.title}
+              className="flex items-start gap-3 p-4 border-2 border-[#1565C0]/20 bg-white shadow-sm card-hover"
+              style={{ borderLeft: `4px solid ${v.color}` }}
+            >
+              <div className="flex size-11 shrink-0 items-center justify-center rounded-sm" style={{ backgroundColor: v.color, color: "white" }}>
+                <v.icon className="size-5" />
               </div>
-              <div className="font-display text-base">{v.title}</div>
-              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{v.copy}</p>
+              <div>
+                <div className="font-bold text-sm text-foreground">{v.title}</div>
+                <p className="mt-0.5 text-xs text-muted-foreground">{v.copy}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

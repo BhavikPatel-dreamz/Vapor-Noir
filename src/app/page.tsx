@@ -11,7 +11,6 @@ import { FAQSection } from "@/components/home/faq-section";
 import { InstagramGallery } from "@/components/home/instagram-gallery";
 import { Newsletter } from "@/components/home/newsletter";
 import { BrandMarquee } from "@/components/home/brand-marquee";
-import { GsapReveal } from "@/components/ui/gsap-reveal";
 import { getProducts, getCategories } from "@/lib/api";
 
 export default async function HomePage() {
@@ -23,31 +22,17 @@ export default async function HomePage() {
     <>
       <Hero product={heroProduct} />
       <BrandMarquee />
-      <GsapReveal y={30}>
-        <ValueProps />
-      </GsapReveal>
-      <GsapReveal y={30}>
-        <Categories categories={categories} />
-      </GsapReveal>
+      <ValueProps />
+      <Categories categories={categories} />
       <FeaturedGridServer />
       <BrandMarquee />
-      <GsapReveal y={30}>
-        <SpecialPromos />
-      </GsapReveal>
-      <GsapReveal y={30}>
-        <Craftsmanship />
-      </GsapReveal>
-      <GsapReveal y={30}>
-        <EditorialSplit product={heroProduct} />
-      </GsapReveal>
-      <GsapReveal y={30}>
-        <BlogSection />
-      </GsapReveal>
+      <SpecialPromos />
+      <Craftsmanship />
+      <EditorialSplit product={heroProduct} />
+      <BlogSection />
       <Testimonials />
       <FAQSection />
-      <GsapReveal y={30}>
-        <InstagramGallery />
-      </GsapReveal>
+      <InstagramGallery />
       <Newsletter />
     </>
   );
