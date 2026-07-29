@@ -70,21 +70,21 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
           </button>
         ))}
       </div>
-      <div ref={mainRef} className="relative order-1 aspect-[4/5] overflow-hidden rounded-2xl bg-muted md:order-2">
+      <div ref={mainRef} className="group relative order-1 aspect-[4/5] overflow-hidden rounded-2xl bg-muted shadow-xl shadow-black/20 md:order-2">
         <Image
           src={images[active]}
           alt={alt}
           fill
           priority
           sizes="(min-width: 768px) 60vw, 100vw"
-          className="object-cover transition-transform duration-700"
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
 
         {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
 
         {/* Image counter */}
-        <div className="absolute bottom-4 left-4 rounded-full bg-background/70 px-3 py-1 text-xs backdrop-blur-md">
+        <div className="absolute bottom-4 left-4 rounded-full bg-background/80 px-3 py-1 text-xs backdrop-blur-md border border-border/50">
           {active + 1} / {images.length}
         </div>
 
@@ -93,7 +93,7 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
           <>
             <button
               onClick={() => handleThumbClick(active > 0 ? active - 1 : images.length - 1)}
-              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-background/70 p-2 backdrop-blur-md transition-all duration-200 hover:bg-background hover:scale-110 opacity-0 group-hover:opacity-100"
+              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2.5 backdrop-blur-md border border-border/50 transition-all duration-200 hover:bg-background hover:scale-110 hover:shadow-lg opacity-0 group-hover:opacity-100"
               aria-label="Previous image"
             >
               <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,7 +102,7 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
             </button>
             <button
               onClick={() => handleThumbClick(active < images.length - 1 ? active + 1 : 0)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-background/70 p-2 backdrop-blur-md transition-all duration-200 hover:bg-background hover:scale-110 opacity-0 group-hover:opacity-100"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2.5 backdrop-blur-md border border-border/50 transition-all duration-200 hover:bg-background hover:scale-110 hover:shadow-lg opacity-0 group-hover:opacity-100"
               aria-label="Next image"
             >
               <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

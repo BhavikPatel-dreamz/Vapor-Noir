@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Heart, ShoppingBag, Loader2, Star } from "lucide-react";
+import { Heart, ShoppingBag, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Rating } from "@/components/ui/rating";
 import { formatPrice } from "@/lib/format";
@@ -79,7 +79,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
   return (
     <div ref={cardRef} className="group relative">
       <Link href={`/product/${product.slug}`} className="block">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-muted">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-muted shadow-sm transition-all duration-500 group-hover:shadow-xl group-hover:shadow-primary/5 group-hover:ring-1 group-hover:ring-primary/20">
           <Image
             src={product.images[0]}
             alt={product.name}
@@ -96,7 +96,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             {isSoldOut && <Badge variant="muted">Sold out</Badge>}
             {!isSoldOut && product.new && <Badge variant="accent">New</Badge>}
             {!isSoldOut && product.bestseller && <Badge>Bestseller</Badge>}
-            {!isSoldOut && product.compareAtPrice && <Badge variant="outline">Sale</Badge>}
+            {!isSoldOut && product.compareAtPrice && <Badge variant="sale">Sale</Badge>}
           </div>
 
           {/* Quick actions */}
@@ -104,7 +104,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             <button
               type="button"
               onClick={(e) => { e.preventDefault(); toggle(product.id); }}
-              aria-label="Add to wishlist"
+              aria-label={has ? "Remove from wishlist" : "Add to wishlist"}
               className="rounded-full bg-background/80 p-2.5 backdrop-blur-md transition-all duration-200 hover:bg-background hover:scale-110 hover:shadow-lg"
             >
               <Heart className={cn("size-4", has && "fill-accent text-accent")} />
@@ -117,8 +117,8 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
               type="button"
               onClick={handleAddToCart}
               disabled={isAdding || isSoldOut}
-              aria-label="Add to cart"
-              className="flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-xs font-medium text-primary-foreground shadow-lg shadow-primary/30 transition-all duration-200 hover:bg-primary/90 hover:scale-105 disabled:opacity-60"
+              aria-label={isSoldOut ? "Sold out" : "Add to cart"}
+              className="flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-xs font-medium text-primary-foreground shadow-lg shadow-primary/30 transition-all duration-200 hover:bg-primary/90 hover:scale-105 hover:shadow-[0_0_25px_-6px_oklch(0.82_0.14_78/0.6)] disabled:opacity-60"
             >
               {isAdding ? (
                 <Loader2 className="size-3.5 animate-spin" />
@@ -130,17 +130,19 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
           </div>
 
           {/* Bottom gradient bar */}
-          <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-primary via-accent to-primary opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+          <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-primary via-accent to-primary opacity-0 scale-x-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-x-100 origin-left" />
         </div>
 
         <div className="mt-4 flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <div className="font-display text-base leading-tight md:text-lg">{product.name}</div>
+            <div className="font-display text-base leading-tight transition-colors duration-200 group-hover:text-primary md:text-lg">{product.name}</div>
             <div className="mt-1 truncate text-xs text-muted-foreground">{product.tagline}</div>
             <div className="mt-1.5"><Rating value={product.rating} count={product.reviewCount} /></div>
           </div>
           <div className="text-right shrink-0">
-            <div className="text-sm font-medium md:text-base">{formatPrice(product.price, product.currency)}</div>
+            <div className={cn("text-sm font-medium md:text-base", product.compareAtPrice && "text-accent")}>
+              {formatPrice(product.price, product.currency)}
+            </div>
             {product.compareAtPrice && (
               <div className="text-xs text-muted-foreground line-through">
                 {formatPrice(product.compareAtPrice, product.currency)}

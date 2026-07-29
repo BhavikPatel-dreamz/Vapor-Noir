@@ -39,7 +39,7 @@ export function AnnouncementBar() {
         {/* Center: Revolving Ticker */}
         <div className="mx-auto md:mx-0 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-foreground/90">
           <CurrentIcon className="size-3.5 text-primary shrink-0" />
-          <span>{announcements[index].text}</span>
+          <span key={index} className="animate-slide-up">{announcements[index].text}</span>
         </div>
 
         {/* Right: Currency / Region / Support links */}

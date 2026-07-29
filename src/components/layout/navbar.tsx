@@ -99,10 +99,10 @@ export function Navbar() {
               >
                 <Link
                   href="/shop"
-                  className="flex items-center gap-1 rounded-md px-3.5 py-2 text-sm font-medium text-foreground/90 transition-colors hover:bg-muted hover:text-foreground"
+                  className="relative flex items-center gap-1 rounded-md px-3.5 py-2 text-sm font-medium text-foreground/90 transition-colors hover:bg-primary-light hover:text-primary"
                 >
                   Shop Catalog
-                  <ChevronDown className={`size-4 text-muted-foreground transition-transform duration-200 ${shopMegaOpen ? "rotate-180 text-primary" : ""}`} />
+                  <ChevronDown className={`size-4 transition-all duration-200 ${shopMegaOpen ? "rotate-180 text-primary" : "text-muted-foreground"}`} />
                 </Link>
 
                 {/* Mega Menu Dropdown */}
@@ -137,9 +137,9 @@ export function Navbar() {
                                 <Link
                                   key={item.name}
                                   href={item.href}
-                                  className="block rounded-lg p-1.5 transition-colors hover:bg-muted/60"
+                                  className="group/item block rounded-lg p-1.5 transition-all duration-200 hover:bg-primary-light"
                                 >
-                                  <div className="text-xs font-medium text-foreground group-hover:text-primary">
+                                  <div className="text-xs font-medium text-foreground transition-colors duration-200 group-hover/item:text-primary">
                                     {item.name}
                                   </div>
                                   <div className="text-[10px] text-muted-foreground">
@@ -172,25 +172,25 @@ export function Navbar() {
 
               <Link
                 href="/shop?category=spoons"
-                className="rounded-md px-3.5 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
+                className="rounded-md px-3.5 py-2 text-sm font-medium text-foreground/80 transition-all duration-200 hover:bg-primary-light hover:text-primary"
               >
                 Spoons
               </Link>
               <Link
                 href="/shop?category=bubblers-rigs"
-                className="rounded-md px-3.5 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
+                className="rounded-md px-3.5 py-2 text-sm font-medium text-foreground/80 transition-all duration-200 hover:bg-primary-light hover:text-primary"
               >
                 Bubblers & Rigs
               </Link>
               <Link
                 href="/shop?category=bundles"
-                className="rounded-md px-3.5 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
+                className="rounded-md px-3.5 py-2 text-sm font-medium text-foreground/80 transition-all duration-200 hover:bg-primary-light hover:text-primary"
               >
                 Bundles
               </Link>
               <Link
                 href="/about"
-                className="rounded-md px-3.5 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
+                className="rounded-md px-3.5 py-2 text-sm font-medium text-foreground/80 transition-all duration-200 hover:bg-primary-light hover:text-primary"
               >
                 Craftsmanship
               </Link>
@@ -274,10 +274,10 @@ export function Navbar() {
                       key={cat.name}
                       href={cat.href}
                       onClick={() => setMobileOpen(false)}
-                      className="flex items-center justify-between border-b border-border/40 py-3 font-display text-xl"
+                      className="group flex items-center justify-between border-b border-border/40 py-3 font-display text-xl transition-colors duration-200 hover:text-primary"
                     >
                       <span>{cat.name}</span>
-                      <span className="text-xs text-muted-foreground font-sans">{cat.items.length} items</span>
+                      <span className="text-xs text-muted-foreground font-sans transition-colors duration-200 group-hover:text-primary/70">{cat.items.length} items</span>
                     </Link>
                   ))}
                 </div>
@@ -291,21 +291,21 @@ export function Navbar() {
                   <Link
                     href="/about"
                     onClick={() => setMobileOpen(false)}
-                    className="block border-b border-border/40 py-3 font-display text-xl"
+                    className="block border-b border-border/40 py-3 font-display text-xl transition-colors duration-200 hover:text-primary"
                   >
                     Our Story & Craft
                   </Link>
                   <Link
                     href="/contact"
                     onClick={() => setMobileOpen(false)}
-                    className="block border-b border-border/40 py-3 font-display text-xl"
+                    className="block border-b border-border/40 py-3 font-display text-xl transition-colors duration-200 hover:text-primary"
                   >
                     Contact & Stores
                   </Link>
                   <Link
                     href="/wishlist"
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 border-b border-border/40 py-3 font-display text-xl"
+                    className="flex items-center gap-2 border-b border-border/40 py-3 font-display text-xl transition-colors duration-200 hover:text-primary"
                   >
                     <Heart className="size-5" /> Saved Wishlist
                   </Link>

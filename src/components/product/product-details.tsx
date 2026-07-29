@@ -115,14 +115,16 @@ export function ProductDetails({ product }: { product: Product }) {
       </div>
 
       {/* Price */}
-      <div className="flex items-baseline gap-3">
-        <div className="text-3xl font-medium md:text-4xl">{formatPrice(variant.price, product.currency)}</div>
+      <div className="flex items-baseline gap-3 flex-wrap">
+        <div className={cn("text-3xl font-medium md:text-4xl", product.compareAtPrice && "text-accent")}>
+          {formatPrice(variant.price, product.currency)}
+        </div>
         {product.compareAtPrice && (
           <>
             <div className="text-lg text-muted-foreground line-through">
               {formatPrice(product.compareAtPrice, product.currency)}
             </div>
-            <Badge variant="accent" className="text-xs">
+            <Badge variant="sale">
               Save {Math.round(((product.compareAtPrice - variant.price) / product.compareAtPrice) * 100)}%
             </Badge>
           </>
@@ -136,7 +138,7 @@ export function ProductDetails({ product }: { product: Product }) {
 
       {/* Variants */}
       <div>
-        <div className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+        <div className="mb-3 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground">
           {product.category === "e-liquids" ? "Strength" : "Finish"}
         </div>
         <div className="flex flex-wrap gap-2">
@@ -148,8 +150,8 @@ export function ProductDetails({ product }: { product: Product }) {
               className={cn(
                 "rounded-lg border-2 px-5 py-2.5 text-sm font-medium transition-all duration-300",
                 v.id === variantId
-                  ? "border-primary bg-primary/10 text-foreground shadow-md shadow-primary/10"
-                  : "border-border hover:border-primary/40 hover:bg-muted",
+                  ? "border-primary bg-primary-light text-foreground shadow-md shadow-primary/10 ring-1 ring-primary/30"
+                  : "border-border hover:border-primary/40 hover:bg-primary-light/50",
                 !v.inStock && "opacity-30 line-through cursor-not-allowed",
               )}
             >
@@ -162,12 +164,12 @@ export function ProductDetails({ product }: { product: Product }) {
       {/* Quantity + Actions */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-3">
-          <div className="flex items-center rounded-lg border border-border">
-            <button aria-label="Decrease" onClick={() => setQty(Math.max(1, qty - 1))} className="p-3 transition-colors hover:bg-muted rounded-l-lg">
+          <div className="flex items-center rounded-lg border border-border overflow-hidden">
+            <button aria-label="Decrease" onClick={() => setQty(Math.max(1, qty - 1))} className="p-3 transition-all duration-200 hover:bg-muted hover:text-primary">
               <Minus className="size-4" />
             </button>
-            <div className="w-10 text-center text-sm font-medium tabular-nums">{qty}</div>
-            <button aria-label="Increase" onClick={() => setQty(qty + 1)} className="p-3 transition-colors hover:bg-muted rounded-r-lg">
+            <div className="w-12 text-center text-sm font-medium tabular-nums border-x border-border">{qty}</div>
+            <button aria-label="Increase" onClick={() => setQty(qty + 1)} className="p-3 transition-all duration-200 hover:bg-muted hover:text-primary">
               <Plus className="size-4" />
             </button>
           </div>
@@ -196,7 +198,7 @@ export function ProductDetails({ product }: { product: Product }) {
               size="lg"
               variant="outline"
               className="h-12 w-12 p-0"
-              aria-label="Wishlist"
+              aria-label={wl.ids.includes(product.id) ? "Remove from wishlist" : "Add to wishlist"}
               onClick={() => wl.toggle(product.id)}
             >
               <Heart className={cn("size-5", wl.ids.includes(product.id) && "fill-accent text-accent")} />
@@ -206,11 +208,13 @@ export function ProductDetails({ product }: { product: Product }) {
       </div>
 
       {/* Trust badges */}
-      <div className="grid grid-cols-2 gap-2 rounded-xl border border-border bg-card/40 p-4">
+      <div className="grid grid-cols-2 gap-2 rounded-xl border border-border/60 bg-card/40 p-4 shadow-sm">
         {trustItems.map(({ icon: Icon, text }) => (
-          <div key={text} className="flex items-center gap-2">
-            <Icon className="size-4 text-primary" />
-            <span className="text-xs text-muted-foreground">{text}</span>
+          <div key={text} className="flex items-center gap-2.5">
+            <div className="flex size-8 items-center justify-center rounded-lg bg-primary-light">
+              <Icon className="size-4 text-primary" />
+            </div>
+            <span className="text-xs text-muted-foreground font-medium">{text}</span>
           </div>
         ))}
       </div>
