@@ -1,13 +1,4 @@
-"use client";
-
-import { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Award, Leaf, ShieldCheck, Truck } from "lucide-react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const values = [
   { icon: Award, title: "Craft-engineered", copy: "Calibrated by hand at our Copenhagen workshop to 0.01mm tolerances." },
@@ -17,26 +8,8 @@ const values = [
 ];
 
 export function ValueProps() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const cards = Array.from(el.querySelectorAll(".vp-card"));
-    gsap.set(cards, { y: 25, opacity: 0 });
-    gsap.to(cards, {
-      y: 0,
-      opacity: 1,
-      duration: 0.6,
-      ease: "power3.out",
-      stagger: 0.08,
-      scrollTrigger: { trigger: el, start: "top 85%", once: true },
-    });
-  }, []);
-
   return (
-    <section ref={ref} className="container-x py-14 md:py-16">
+    <section className="container-x py-14 md:py-16">
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {values.map((v) => (
           <div

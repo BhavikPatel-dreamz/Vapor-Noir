@@ -1,13 +1,4 @@
-"use client";
-
-import { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CheckCircle2 } from "lucide-react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const steps = [
   {
@@ -40,47 +31,8 @@ const highlights = [
 ];
 
 export function Craftsmanship() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const left = el.querySelector(".craft-left");
-    const cards = Array.from(el.querySelectorAll(".craft-card"));
-    const highlights = Array.from(el.querySelectorAll(".craft-highlight"));
-
-    const ctx = gsap.context(() => {
-      if (left) {
-        gsap.set(left, { x: -30, opacity: 0 });
-        gsap.to(left, {
-          x: 0, opacity: 1, duration: 0.9, ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 80%", once: true },
-        });
-      }
-
-      if (cards.length > 0) {
-        gsap.set(cards, { y: 30, opacity: 0 });
-        gsap.to(cards, {
-          y: 0, opacity: 1, duration: 0.6, ease: "power3.out", stagger: 0.1,
-          scrollTrigger: { trigger: el, start: "top 75%", once: true },
-        });
-      }
-
-      if (highlights.length > 0) {
-        gsap.set(highlights, { x: -15, opacity: 0 });
-        gsap.to(highlights, {
-          x: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.06, delay: 0.3,
-          scrollTrigger: { trigger: el, start: "top 75%", once: true },
-        });
-      }
-    }, el);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={ref} className="border-t border-border bg-card/30 py-16 md:py-24">
+    <section className="border-t border-border bg-card/30 py-16 md:py-24">
       <div className="container-x">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
           <div className="craft-left">

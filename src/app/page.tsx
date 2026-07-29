@@ -11,27 +11,43 @@ import { FAQSection } from "@/components/home/faq-section";
 import { InstagramGallery } from "@/components/home/instagram-gallery";
 import { Newsletter } from "@/components/home/newsletter";
 import { BrandMarquee } from "@/components/home/brand-marquee";
-import { getProducts } from "@/lib/api";
+import { GsapReveal } from "@/components/ui/gsap-reveal";
+import { getProducts, getCategories } from "@/lib/api";
 
 export default async function HomePage() {
   const { products: list } = await getProducts({ limit: 2 });
   const heroProduct = list[1] ?? list[0] ?? null;
+  const categories = await getCategories();
 
   return (
     <>
       <Hero product={heroProduct} />
       <BrandMarquee />
-      <ValueProps />
-      <Categories />
+      <GsapReveal y={30}>
+        <ValueProps />
+      </GsapReveal>
+      <GsapReveal y={30}>
+        <Categories categories={categories} />
+      </GsapReveal>
       <FeaturedGridServer />
       <BrandMarquee />
-      <SpecialPromos />
-      <Craftsmanship />
-      <EditorialSplit product={heroProduct} />
-      <BlogSection />
+      <GsapReveal y={30}>
+        <SpecialPromos />
+      </GsapReveal>
+      <GsapReveal y={30}>
+        <Craftsmanship />
+      </GsapReveal>
+      <GsapReveal y={30}>
+        <EditorialSplit product={heroProduct} />
+      </GsapReveal>
+      <GsapReveal y={30}>
+        <BlogSection />
+      </GsapReveal>
       <Testimonials />
       <FAQSection />
-      <InstagramGallery />
+      <GsapReveal y={30}>
+        <InstagramGallery />
+      </GsapReveal>
       <Newsletter />
     </>
   );

@@ -1,14 +1,5 @@
-"use client";
-
 import { Instagram } from "lucide-react";
 import Image from "next/image";
-import { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const feedImages = [
   { id: 1, url: "/images/generated/community_shot_1_1785229249506.jpg", handle: "@vapornoir_official" },
@@ -18,37 +9,8 @@ const feedImages = [
 ];
 
 export function InstagramGallery() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const header = el.querySelector(".ig-header");
-    const images = Array.from(el.querySelectorAll(".ig-image"));
-
-    const ctx = gsap.context(() => {
-      if (header) {
-        gsap.set(header, { y: 20, opacity: 0 });
-        gsap.to(header, {
-          y: 0, opacity: 1, duration: 0.7, ease: "power3.out",
-          scrollTrigger: { trigger: header, start: "top 85%", once: true },
-        });
-      }
-      if (images.length > 0) {
-        gsap.set(images, { y: 30, opacity: 0, scale: 0.95 });
-        gsap.to(images, {
-          y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "power3.out", stagger: 0.08,
-          scrollTrigger: { trigger: el, start: "top 80%", once: true },
-        });
-      }
-    }, el);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={ref} className="border-t border-border py-16 md:py-24">
+    <section className="border-t border-border py-16 md:py-24">
       <div className="ig-header container-x mb-8 flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
         <div>
           <div className="mb-1 text-[11px] uppercase tracking-[0.25em] text-muted-foreground">

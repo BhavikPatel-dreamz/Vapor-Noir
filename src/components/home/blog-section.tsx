@@ -1,15 +1,6 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUpRight, Clock } from "lucide-react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const articles = [
   {
@@ -42,38 +33,8 @@ const articles = [
 ];
 
 export function BlogSection() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const header = el.querySelector(".blog-header");
-    const cards = Array.from(el.querySelectorAll(".blog-card"));
-
-    const ctx = gsap.context(() => {
-      if (header) {
-        const items = Array.from(header.children);
-        gsap.set(items, { y: 20, opacity: 0 });
-        gsap.to(items, {
-          y: 0, opacity: 1, duration: 0.7, ease: "power3.out", stagger: 0.1,
-          scrollTrigger: { trigger: header, start: "top 85%", once: true },
-        });
-      }
-      if (cards.length > 0) {
-        gsap.set(cards, { y: 30, opacity: 0 });
-        gsap.to(cards, {
-          y: 0, opacity: 1, duration: 0.6, ease: "power3.out", stagger: 0.1,
-          scrollTrigger: { trigger: el, start: "top 80%", once: true },
-        });
-      }
-    }, el);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={ref} className="container-x py-16 md:py-24">
+    <section className="container-x py-16 md:py-24">
       <div className="blog-header mb-10 flex items-end justify-between gap-6">
         <div>
           <div className="mb-2 text-[11px] uppercase tracking-[0.25em] text-muted-foreground">Journal</div>

@@ -1,35 +1,10 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Flame, Sparkles } from "lucide-react";
-import { getProducts } from "@/lib/api";
-import type { Product } from "@/types/product";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export function SpecialPromos() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const cards = Array.from(el.querySelectorAll(".promo-card"));
-    gsap.set(cards, { y: 40, opacity: 0, scale: 0.97 });
-    gsap.to(cards, {
-      y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "power3.out", stagger: 0.12,
-      scrollTrigger: { trigger: el, start: "top 85%", once: true },
-    });
-  }, []);
-
   return (
-    <section ref={ref} className="container-x py-16 md:py-24">
+    <section className="container-x py-16 md:py-24">
       <div className="grid gap-5 md:grid-cols-2">
         {/* Banner 1: Limited Reserve */}
         <div className="promo-card group relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-card via-background to-primary/5">
